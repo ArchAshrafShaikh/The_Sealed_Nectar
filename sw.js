@@ -1,6 +1,6 @@
 /* Offline support. The app's own files are saved on first visit; fonts are saved the first time they load.
    Change VERSION whenever any file changes, so tablets pick up the new copy. */
-const VERSION = "sn-v6";
+const VERSION = "sn-v7";
 const SHELL = ["./", "index.html", "styles.css", "app.js", "audio.js", "stories/stories.js", "scenes/scenes.js", "manifest.webmanifest", "icons/icon.svg", "icons/icon-192.png", "icons/icon-512.png", "icons/icon-180.png", "voice/manifest.json"];
 
 self.addEventListener("install", (e) => e.waitUntil(caches.open(VERSION).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting())));
