@@ -8,7 +8,7 @@
   /* ---------- helpers ---------- */
   // A tappable prop. fx = what it does (see styles.css), snd = sound it makes.
   const T = (name, fx, snd, x, y, s, inner, hit) =>
-    `<g class="tap" data-name="${name}" data-fx="${fx}" data-snd="${snd}" transform="translate(${x} ${y}) scale(${s})"><g class="wig"><g class="fx">${inner}</g></g><rect class="hit" x="${hit[0]}" y="${hit[1]}" width="${hit[2]}" height="${hit[3]}" rx="24"/></g>`;
+    `<g class="tap" data-name="${name}" data-fx="${fx}" data-snd="${snd}" transform="translate(${x} ${y}) scale(${s})"><g class="in"><g class="wig"><g class="fx">${inner}</g></g></g><rect class="hit" x="${hit[0]}" y="${hit[1]}" width="${hit[2]}" height="${hit[3]}" rx="24"/></g>`;
   // A prop that just sits there.
   const P = (x, y, s, inner, cls) => `<g ${cls ? `class="${cls}" ` : ""}transform="translate(${x} ${y}) scale(${s})">${inner}</g>`;
   const glow = (cx, cy, r) => `<circle class="glow" cx="${cx}" cy="${cy}" r="${r}" fill="url(#gl)"/>`;
@@ -16,7 +16,7 @@
   /* ---------- prop drawings ---------- */
   const A = {};
   A.kaaba = `${glow(0, -60, 150)}<rect x="-58" y="-124" width="116" height="124" fill="${INK}" stroke="${GOLD}" stroke-width="2"/><rect x="-58" y="-100" width="116" height="14" fill="${GOLD}"/><path d="M-58 -78h116" stroke="${GOLD}" stroke-width="1.5" stroke-dasharray="5 6"/><rect x="14" y="-56" width="26" height="56" rx="2" fill="${GOLD}"/><rect x="19" y="-50" width="16" height="50" fill="#b98a1c"/>`;
-  A.palm = `<path d="M-4 0 Q4 -50 -3 -96 L7 -96 Q13 -50 7 0Z" fill="var(--trunk)"/><g fill="var(--leaf)"><path d="M2 -96 Q-40 -120 -68 -92 Q-36 -104 2 -90Z"/><path d="M2 -96 Q44 -120 72 -92 Q40 -104 2 -90Z"/><path d="M2 -96 Q-28 -140 -58 -130 Q-28 -124 2 -90Z"/><path d="M2 -96 Q32 -140 62 -130 Q32 -124 2 -90Z"/><path d="M2 -96 Q-4 -144 14 -150 Q8 -124 4 -90Z" fill="var(--leaf2)"/></g><circle cx="-3" cy="-90" r="5" fill="#8a5a2b"/><circle cx="8" cy="-88" r="5" fill="#8a5a2b"/>`;
+  A.palm = `<g class="a-palm"><path d="M-4 0 Q4 -50 -3 -96 L7 -96 Q13 -50 7 0Z" fill="var(--trunk)"/><g fill="var(--leaf)"><path d="M2 -96 Q-40 -120 -68 -92 Q-36 -104 2 -90Z"/><path d="M2 -96 Q44 -120 72 -92 Q40 -104 2 -90Z"/><path d="M2 -96 Q-28 -140 -58 -130 Q-28 -124 2 -90Z"/><path d="M2 -96 Q32 -140 62 -130 Q32 -124 2 -90Z"/><path d="M2 -96 Q-4 -144 14 -150 Q8 -124 4 -90Z" fill="var(--leaf2)"/></g><circle cx="-3" cy="-90" r="5" fill="#8a5a2b"/><circle cx="8" cy="-88" r="5" fill="#8a5a2b"/></g>`;
   const house = (w, h, wins) => {
     let s = `<rect x="${-w / 2}" y="${-h}" width="${w}" height="${h}" rx="5" fill="var(--wall)"/><rect x="${-w / 2 - 4}" y="${-h - 6}" width="${w + 8}" height="10" rx="4" fill="var(--wall2)"/><path d="M-9 0v-26a9 9 0 0 1 18 0v26Z" fill="var(--trunk)"/>`;
     for (let i = 0; i < wins; i++) {
@@ -53,7 +53,7 @@
   A.sheep = quad({ c: "#f6f1e6", d: "#3a3440", rx: 40, ry: 26, L: 26, lw: 8, nx: 14, ny: 12, nw: 12, hr: 11, wool: 1 });
   A.goat = quad({ c: "#e9dcc6", d: "#7b6652", rx: 40, ry: 24, L: 34, lw: 8, nx: 16, ny: 20, nw: 11, hr: 11, horn: 1 });
 
-  A.tent = `${glow(0, -40, 110)}<path d="M-110 0 L0 -120 L110 0Z" fill="var(--tent)"/><path d="M-66 0 L0 -120 L-22 0Z" fill="var(--tent2)"/><path d="M66 0 L0 -120 L22 0Z" fill="var(--tent2)"/><path class="flap" d="M-22 0 L0 -70 L22 0Z" fill="#3a2a22"/><path d="M0 -120v-18" stroke="var(--trunk)" stroke-width="4"/><path d="M0 -138l22 8-22 6Z" fill="#b8473d"/>`;
+  A.tent = `${glow(0, -40, 110)}<path d="M-110 0 L0 -120 L110 0Z" fill="var(--tent)"/><path d="M-66 0 L0 -120 L-22 0Z" fill="var(--tent2)"/><path d="M66 0 L0 -120 L22 0Z" fill="var(--tent2)"/><path class="flap" d="M-22 0 L0 -70 L22 0Z" fill="#3a2a22"/><path d="M0 -120v-18" stroke="var(--trunk)" stroke-width="4"/><path class="a-flag" d="M0 -138l22 8-22 6Z" fill="#b8473d"/>`;
   A.orb = `${glow(0, 0, 110)}<circle r="46" fill="var(--orb)"/><circle class="crater" cx="-14" cy="-10" r="9"/><circle class="crater" cx="16" cy="12" r="6"/>`;
   A.star = `<g class="rays" stroke="${LIT}" stroke-width="6" stroke-linecap="round">${[0, 45, 90, 135, 180, 225, 270, 315].map(a => `<line y1="-62" y2="-92" transform="rotate(${a})"/>`).join("")}</g>${glow(0, 0, 120)}<path class="core" d="M0-48 13-15 48-15 20 7 31 43 0 22-31 43-20 7-48-15-13-15Z" fill="${LIT}"/>`;
   A.stars = [[-160, -30, 9], [-80, 30, 7], [0, -40, 11], [90, 20, 8], [160, -20, 10], [-30, 50, 6], [120, 70, 6]].map(p => `<path class="tw2" transform="translate(${p[0]} ${p[1]})" d="M0-${p[2] * 2} ${p[2] * 0.5}-${p[2] * 0.5} ${p[2] * 2} 0 ${p[2] * 0.5} ${p[2] * 0.5} 0 ${p[2] * 2}-${p[2] * 0.5} ${p[2] * 0.5}-${p[2] * 2} 0-${p[2] * 0.5}-${p[2] * 0.5}Z" fill="${LIT}"/>`).join("");
@@ -143,7 +143,7 @@
   let uid = 0;
   const S = (mood, back, ...parts) => {
     const u = ++uid;
-    const body = (defs + B[back] + parts.join("")).split('id="sk"').join('id="sk' + u + '"').split('id="gl"').join('id="gl' + u + '"').split("url(#sk)").join("url(#sk" + u + ")").split("url(#gl)").join("url(#gl" + u + ")");
+    const body = (defs + `<g class="cam cam${u % 4}">` + B[back] + parts.join("") + "</g>").split('id="sk"').join('id="sk' + u + '"').split('id="gl"').join('id="gl' + u + '"').split("url(#sk)").join("url(#sk" + u + ")").split("url(#gl)").join("url(#gl" + u + ")");
     return { mood, svg: `<svg viewBox="0 0 1000 625" preserveAspectRatio="xMidYMid slice" class="scene ${mood}" aria-hidden="true">${body}</svg>` };
   };
   const town = (x, y) => p.house(x, y, 1, 90, 70) + p.house(x + 95, y + 14, 1, 70, 54) + p.house(x - 80, y + 18, 1, 64, 48);
@@ -236,6 +236,23 @@
   };
 
   SN.homeScene = () => S("", "dunes", p.palm(70, 600, 1.3), p.palm(945, 590, 1.1), p.tent(880, 440, 0.45), p.kaaba(120, 425, 0.4)).svg;
+
+  /* When, during the voice-over, each thing in a picture plays by itself (0 = start, 1 = end).
+     One entry per picture. Anything not listed is spread evenly through the telling. */
+  SN.cues = {
+    elephant: [{ orb: 0.08, kaaba: 0.5 }, { palm: 0.15, elephant: 0.72 }, { birds: 0.12, palm: 0.7 }, { star: 0.62, palm: 0.25 }],
+    birth: [{ house: 0.75, orb: 0.1 }, { orb: 0.15, birds: 0.6 }, { birds: 0.15, kaaba: 0.6 }, { stars: 0.15, name: 0.5 }, { kaaba: 0.3, orb: 0.75 }],
+    halimah: [{ tent: 0.3, camel: 0.7 }, { donkey: 0.3, camel: 0.5 }, { camel: 0.3, donkey: 0.55 }, { goat: 0.5, grass: 0.8 }, { stars: 0.5, tent: 0.8 }],
+    family: [{ house: 0.6 }, { camel: 0.3, cloud: 0.7 }, { mat: 0.55, birds: 0.2 }, { house: 0.6 }, { stars: 0.3, orb: 0.6 }],
+    shepherd: [{ sheep: 0.6 }, { sheep: 0.45 }, { sheep: 0.3 }, { stars: 0.5, sheep: 0.2 }, { orb: 0.2, sheep: 0.6 }],
+    amin: [{ house: 0.5 }, { stall: 0.2, scale: 0.6 }, { stars: 0.2, name: 0.55 }, { chest: 0.45, lamp: 0.8 }, { door: 0.7, lamp: 0.3 }],
+    syria: [{ camel: 0.5 }, { camel: 0.2, stars: 0.75, lamp: 0.6 }, { camel: 0.15, door: 0.8 }, { cloud: 0.3, palm: 0.6 }, { camel: 0.25 }],
+    khadijah: [{ stall: 0.5, house: 0.2 }, { camel: 0.5 }, { scale: 0.25, stall: 0.7 }, { camel: 0.15, house: 0.5 }, { house: 0.4, lamp: 0.65 }],
+    stone: [{ wall: 0.55 }, { stone: 0.55 }, { gate: 0.7 }, { orb: 0.05, gate: 0.2 }, { cloth: 0.5 }],
+    hira: [{ kaaba: 0.6 }, { cave: 0.7, cloud: 0.2 }, { basket: 0.2, lamp: 0.45 }, { stars: 0.4, orb: 0.7 }, { orb: 0.2, birds: 0.6 }],
+    read: [{ stars: 0.2, cave: 0.7 }, { stars: 0.5, star: 0.75 }, { name: 0.45, stars: 0.8 }, { house: 0.75, lamp: 0.85 }, { orb: 0.6, kaaba: 0.85 }],
+    first: [{ house: 0.75 }, { lamp: 0.4 }, { lamp: 0.25 }, { house: 0.35 }, { house: 0.25, stars: 0.85 }]
+  };
 
   /* What each tappable thing is called, for the "can you find..." prompt. */
   SN.names = {

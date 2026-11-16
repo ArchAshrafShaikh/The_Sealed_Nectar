@@ -169,6 +169,33 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .scene .tap:nth-of-type(3n):not(.done) .wig { animation-delay: 2.6s; }
 @keyframes wig { 0%, 82%, 100% { transform: none; } 86% { transform: rotate(-4deg) scale(1.05); } 91% { transform: rotate(4deg) scale(1.05); } 96% { transform: rotate(-2deg); } }
 
+/* the film: a slow camera move for the length of the voice-over */
+.scene .cam { transform-origin: 50% 62%; }
+.scene.run .cam { animation: cam0 var(--dur, 20s) ease-in-out both; }
+.scene.run .cam1 { animation-name: cam1; } .scene.run .cam2 { animation-name: cam2; } .scene.run .cam3 { animation-name: cam3; }
+@keyframes cam0 { from { transform: scale(1); } to { transform: scale(1.14); } }
+@keyframes cam1 { from { transform: scale(1.12) translateX(3.500%); } to { transform: scale(1.12) translateX(-3.500%); } }
+@keyframes cam2 { from { transform: scale(1.15); } to { transform: scale(1); } }
+@keyframes cam3 { from { transform: scale(1.12) translateX(-3.500%); } to { transform: scale(1.12) translateX(3.500%); } }
+.paused .scene .cam, .paused .scene .in { animation-play-state: paused; }
+/* things arrive one after another */
+.scene .in { transform-box: fill-box; transform-origin: 50% 100%; animation: enter .9s var(--spring) backwards; animation-delay: .25s; }
+.scene .tap:nth-child(3n) .in { animation-delay: .55s; } .scene .tap:nth-child(3n+1) .in { animation-delay: .85s; }
+@keyframes enter { from { transform: translateY(40px) scale(.6); opacity: 0; } }
+/* small life in every picture */
+.scene .a-palm { transform-box: fill-box; transform-origin: 50% 100%; animation: breeze 5s ease-in-out infinite alternate; }
+@keyframes breeze { from { transform: rotate(-2deg); } to { transform: rotate(2.500deg); } }
+.scene .a-flag { transform-box: fill-box; transform-origin: 0 50%; animation: flag 1.6s ease-in-out infinite alternate; }
+@keyframes flag { to { transform: scaleX(.7) skewY(8deg); } }
+.scene .bod { animation: breathe 3.4s ease-in-out infinite; }
+@keyframes breathe { 50% { transform: translateY(-2px); } }
+.scene [data-name="orb"] .glow { animation: halo 4s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }
+@keyframes halo { to { transform: scale(1.18); } }
+.scene .tw2 { animation: tw 2.2s ease-in-out infinite alternate; }
+.scene .tw2:nth-child(2n) { animation-delay: .7s; }
+.scene .on .glow, .scene .tap.go[data-fx="light"] .glow { animation: flicker 2.8s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }
+@keyframes flicker { 30% { transform: scale(1.06); } 60% { transform: scale(.96); } to { transform: scale(1.04); } }
+
 /* pulse: a soft swell and glow */
 .tap[data-fx="pulse"].go .fx { animation: pulse .9s var(--ease); }
 .tap[data-fx="pulse"].go .glow { opacity: 1; }
@@ -298,5 +325,5 @@ select, input[type="file"] { font: inherit; color: inherit; background: var(--ca
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .scene .tap:not(.done) .wig, .scene .tw, .scene .cl1, .scene .cl2, #guide .gb, .tile.next .disc, .endrays, #stage, .tap[data-fx="fly"] .fx { animation: none; }
+  .scene.run .cam, .scene .in, .scene .a-palm, .scene .a-flag, .scene .bod, .scene .tap:not(.done) .wig, .scene .tw, .scene .cl1, .scene .cl2, #guide .gb, .tile.next .disc, .endrays, #stage, .tap[data-fx="fly"] .fx { animation: none; }
 }

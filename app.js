@@ -110,7 +110,7 @@
   const story = () => SN.stories[cur.n];
   const setIcon = (playing) => $("playicon").setAttribute("d", playing ? PAUSE : PLAY);
   function clearTimers() { if (cur) { clearTimeout(cur.t1); clearTimeout(cur.t2); } }
-  function halt() { clearTimers(); A.stop(); setIcon(false); }
+  function halt() { clearTimers(); A.stop(); setIcon(false); if (typeof stopFilm === "function") stopFilm(); }
   function restGuideInStory() {
     const r = $("stagewrap").getBoundingClientRect(), w = guide.offsetWidth || 80;
     guideRest = st.readAlong ? { x: r.left + 10, y: r.top + 10 } : { x: r.left + 10, y: r.bottom - w - 6 };
@@ -147,12 +147,45 @@
     for (let k = 0; k < sp.length; k++) { sp[k].classList.toggle("said", k < i); sp[k].classList.toggle("now", k === i); }
   }
 
+  /* Each picture plays like a short film in step with the voice: the camera drifts, and each thing
+     in the picture does its action at its moment in the telling. */
+  let tl = null;
+  function stopFilm() { if (tl) { clearInterval(tl.id); tl = null; } }
+  function setFilmLength(secs) {
+    if (!tl) return;
+    tl.D = Math.max(4, secs);
+    const svg = stage.querySelector("svg"); if (svg) svg.style.setProperty("--dur", tl.D + "s");
+  }
+  function startFilm(secs) {
+    stopFilm();
+    const taps = [...stage.querySelectorAll(".tap")], plan = ((SN.cues[story().id] || [])[cur.i]) || {}, seen = {};
+    const cues = taps.map((t, k) => {
+      const name = t.dataset.name, nth = (seen[name] = (seen[name] || 0) + 1) - 1;
+      const at = plan[name] !== undefined ? Math.min(0.95, plan[name] + nth * 0.12) : 0.2 + (0.65 * (k + 0.5)) / taps.length;
+      return { t, at, fired: false };
+    });
+    tl = { el: 0, last: performance.now(), cues, paused: false, D: secs };
+    setFilmLength(secs);
+    const svg = stage.querySelector("svg"); if (svg) svg.classList.add("run");
+    $("stagewrap").classList.remove("paused");
+    tl.id = setInterval(() => {
+      const now = performance.now(), dt = (now - tl.last) / 1000; tl.last = now;
+      if (tl.paused || document.hidden) return;
+      tl.el += dt;
+      for (const c of tl.cues) if (!c.fired && tl.el >= c.at * tl.D) { c.fired = true; if (!c.t.classList.contains("done")) act(c.t, false); }
+      if (tl.el > tl.D + 1) stopFilm();
+    }, 100);
+  }
+  function pauseFilm(p) { if (tl) tl.paused = p; $("stagewrap").classList.toggle("paused", p); }
+
   function tell() {
     clearTimers();
     setIcon(true);
     const text = story().scenes[cur.i][st.lang];
+    startFilm(text.split(/\s+/).length * 0.42 + 1.5);
     A.say({
       key: `${story().id}:${cur.i}:${st.lang}`, text, lang: st.lang, onword: markWord,
+      onstart: (how, dur) => { if (dur) setFilmLength(dur); },
       onend: (how) => {
         cur.how = how; setIcon(false); markWord(999);
         $("norec").hidden = how !== "none";
@@ -195,16 +228,21 @@
   }
 
   // Taps on things in the picture. pointerdown, so a second finger or a resting palm doesn't block it.
-  stage.addEventListener("pointerdown", (e) => {
-    const t = e.target.closest(".tap"); if (!t) return;
-    e.preventDefault();
+  // Make one thing in the picture do its action. byChild = he tapped it; otherwise the film played it.
+  function act(t, byChild) {
     const fx = t.dataset.fx;
     if (ONESHOT[fx]) {
       t.classList.remove("go"); void t.getBoundingClientRect(); t.classList.add("go");
       clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove("go"), ONESHOT[fx]);
-    } else t.classList.toggle("go");
-    t.classList.add("done");
-    A.sfx(t.dataset.snd); guideDo("nod", 500);
+    } else if (byChild) t.classList.toggle("go");
+    else t.classList.add("go");
+    A.sfx(t.dataset.snd);
+    if (byChild) { t.classList.add("done"); guideDo("nod", 500); }
+  }
+  stage.addEventListener("pointerdown", (e) => {
+    const t = e.target.closest(".tap"); if (!t) return;
+    e.preventDefault();
+    act(t, true);
     if (cur) { // he is playing: give him more time before moving on
       clearTimeout(cur.t1);
       if (cur.t2 && !A.active() && cur.how !== "none") { clearTimeout(cur.t2); cur.t2 = setTimeout(advance, LINGER); }
@@ -214,7 +252,7 @@
 
   $("bPlay").onclick = () => {
     if (!cur || !$("end").hidden) return;
-    if (A.active()) { if (A.playing()) { A.pause(); setIcon(false); } else { A.resume(); setIcon(true); } }
+    if (A.active()) { if (A.playing()) { A.pause(); pauseFilm(true); setIcon(false); } else { A.resume(); pauseFilm(false); setIcon(true); } }
     else { cur.opening = false; tell(); }
   };
   $("bNext").onclick = () => { if (!cur || !$("end").hidden) return; halt(); A.sfx("pop"); if (cur.opening) { cur.opening = false; tell(); } else advance(); };

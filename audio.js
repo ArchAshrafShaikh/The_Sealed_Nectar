@@ -95,7 +95,7 @@
   A.active = () => !!cur;
 
   /* Tell `text`. key = recording to look for. onword(i) as each word is reached. onend(how): "rec" | "tts" | "none". */
-  A.say = async function ({ key, text, lang, onword, onend, ttsOnly }) {
+  A.say = async function ({ key, text, lang, onword, onend, onstart, ttsOnly }) {
     A.stop();
     const ws = words(text || "");
     const mine = (cur = { paused: false });
@@ -109,12 +109,14 @@
       el.ontimeupdate = () => onword && onword(wordAt(ws, Math.min(1, el.currentTime / (r.dur || el.duration || 1))));
       el.onended = () => { URL.revokeObjectURL(el.src); done("rec"); };
       el.onerror = () => done("none");
+      onstart && onstart("rec", r.dur);
       el.play().catch(() => done("none"));
       return "rec";
     }
     const v = voiceFor(lang);
     if (synth && v) {
       mine.tts = true;
+      onstart && onstart("tts");
       // Speak sentence by sentence: long single utterances get cut off in some browsers.
       const parts = text.match(/[^.!?۔]+[.!?۔]*\s*/g) || [text];
       let base = 0, left = parts.length;
