@@ -33,8 +33,13 @@
         <svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.900V22h2v-3.100A7 7 0 0 0 19 12z"/><path d="M4 3l17 18" stroke="currentColor" stroke-width="2.500" stroke-linecap="round"/></svg>
       </div>
       <p id="words" hidden></p>
+      <div id="together" hidden>
+        <svg class="twolamps" viewBox="0 0 220 120" aria-hidden="true"><defs><radialGradient id="tg"><stop offset="0" stop-color="#ffe9a8" stop-opacity=".9"/><stop offset="1" stop-color="#ffe9a8" stop-opacity="0"/></radialGradient></defs><circle cx="70" cy="62" r="56" fill="url(#tg)"/><circle cx="160" cy="74" r="42" fill="url(#tg)"/><g fill="#3a2233"><path d="M48 112h44l-6-12H54Z"/><path d="M46 40h48l-10-18H56Z"/><path d="M68 22V8"/><path d="M144 112h32l-5-10h-22Z"/><path d="M142 60h36l-8-14h-20Z"/></g><rect x="52" y="40" width="36" height="60" rx="7" fill="#ffd76a"/><rect x="147" y="60" width="26" height="42" rx="6" fill="#ffd76a"/><path d="M70 22V8M160 46V36" stroke="#3a2233" stroke-width="4"/></svg>
+        <button class="big play" id="tGo" type="button" aria-label="We are both here. Begin the story"><svg viewBox="0 0 24 24"><path d="M7 4v16l13-8z"/></svg></button>
+      </div>
       <div id="end" hidden>
         <div class="endstar" aria-hidden="true"><svg viewBox="-110 -110 220 220"><g class="endrays" stroke="#ffd76a" stroke-width="7" stroke-linecap="round"><line y1="-70" y2="-100"/><line y1="-70" y2="-100" transform="rotate(45)"/><line y1="-70" y2="-100" transform="rotate(90)"/><line y1="-70" y2="-100" transform="rotate(135)"/><line y1="-70" y2="-100" transform="rotate(180)"/><line y1="-70" y2="-100" transform="rotate(225)"/><line y1="-70" y2="-100" transform="rotate(270)"/><line y1="-70" y2="-100" transform="rotate(315)"/></g><path d="M0-54 15-17 54-17 23 8 35 48 0 25-35 48-23 8-54-17-15-17Z" fill="#ffd76a"/></svg></div>
+        <p id="eAsk" aria-label="A question to ask him"></p>
         <div class="endrow">
           <button class="big" id="eAgain" type="button" aria-label="Hear it again"><svg viewBox="0 0 24 24"><path d="M12 5V1L6 6l6 5V7a6 6 0 1 1-6 6H4a8 8 0 1 0 8-8z"/></svg></button>
           <button class="big mic" id="eMic" type="button" hidden aria-label="Tell the story back"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.900V22h2v-3.100A7 7 0 0 0 19 12z"/></svg></button>

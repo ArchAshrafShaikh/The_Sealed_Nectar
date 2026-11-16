@@ -60,12 +60,21 @@
   A.stars = [[-160, -30, 9], [-80, 30, 7], [0, -40, 11], [90, 20, 8], [160, -20, 10], [-30, 50, 6], [120, 70, 6]].map(p => `<path class="tw2" transform="translate(${p[0]} ${p[1]})" d="M0-${p[2] * 2} ${p[2] * 0.5}-${p[2] * 0.5} ${p[2] * 2} 0 ${p[2] * 0.5} ${p[2] * 0.5} 0 ${p[2] * 2}-${p[2] * 0.5} ${p[2] * 0.5}-${p[2] * 2} 0-${p[2] * 0.5}-${p[2] * 0.5}Z" fill="${LIT}"/>`).join("");
   A.cloud = `<g fill="var(--cloud)"><ellipse cx="0" cy="0" rx="110" ry="9"/><ellipse cx="40" cy="-12" rx="70" ry="8"/><ellipse cx="-50" cy="10" rx="60" ry="6"/></g>`;
   A.dust = `<g fill="var(--h1)"><ellipse class="puff" cx="-30" cy="-14" rx="46" ry="22"/><ellipse class="puff" cx="24" cy="-26" rx="54" ry="28"/><ellipse class="puff" cx="70" cy="-10" rx="40" ry="18"/><ellipse class="puff" cx="10" cy="-52" rx="36" ry="20"/></g>`;
+  A.bird = `<ellipse class="shadow" cx="0" cy="1" rx="18" ry="3"/><path d="M-4 0v-8M5 0v-8" stroke="var(--sil)" stroke-width="2"/><g class="bod"><path d="M-14 -16 L-30 -24 L-28 -12Z" fill="var(--sil)"/><ellipse cx="0" cy="-16" rx="16" ry="11" fill="var(--sil2)"/><ellipse cx="3" cy="-12" rx="10" ry="6" fill="var(--pale)" opacity=".8"/><circle cx="14" cy="-24" r="8" fill="var(--sil2)"/><path d="M21 -25 l9 2 -9 3Z" fill="${GOLD}"/><circle cx="16" cy="-26" r="1.600" fill="var(--pale)"/><path d="M-10 -18 q8 -8 16 0 q-8 6 -16 0Z" fill="var(--sil)"/></g>`;
+  const masjid = (() => {
+    let m = `${glow(0, -50, 200)}<rect x="-170" y="-96" width="340" height="96" rx="3" fill="var(--wall)"/>`;
+    for (let i = 0; i < 4; i++) { const x = -128 + i * 86; m += `<path class="win" d="M${x - 22} 0 V-52 a22 22 0 0 1 44 0 V0Z"/>`; }
+    for (let i = 0; i < 5; i++) { const x = -170 + i * 85; m += `<rect x="${x - 6}" y="-104" width="12" height="104" rx="4" fill="var(--sil)"/>`; }
+    m += `<path d="M-186 -98 ${Array.from({ length: 19 }, (_, i) => `l10 -${10 + (i % 3) * 5} l10 ${10 + (i % 3) * 5}`).join(" ")} v8 h-380Z" fill="var(--leaf)"/><rect x="-184" y="-102" width="368" height="8" rx="3" fill="var(--wall2)"/>`;
+    return m;
+  })();
   const tentS = (x, s2) => `<g transform="translate(${x} 0) scale(${s2})"><path d="M-40 0 L0 -46 L40 0Z" fill="var(--sil2)"/><path d="M-8 0 L0 -26 L8 0Z" fill="var(--sil)"/><path d="M0 -46v-22" stroke="var(--sil)" stroke-width="3"/><path class="a-flag" d="M0 -68l20 6-20 6Z" fill="#8f2f3a"/></g>`;
   const spear = (x, h) => `<path d="M${x} 0V${-h}" stroke="var(--sil)" stroke-width="3"/><path d="M${x - 4} ${-h} L${x} ${-h - 14} L${x + 4} ${-h}Z" fill="var(--sil)"/>`;
   A.camp = tentS(-220, 1) + tentS(-120, 1.3) + tentS(0, 1.1) + tentS(110, 1.4) + tentS(230, 1) + [-270, -175, -160, -60, -45, 55, 70, 170, 185, 280].map((x, i) => spear(x, 50 + (i % 3) * 12)).join("");
   A.specks = [[-120, 10, 0.7], [-60, -30, 0.5], [-10, 20, 0.8], [50, -10, 0.6], [-90, 50, 0.5], [90, 40, 0.7], [20, -50, 0.5], [130, 0, 0.6], [-150, -30, 0.5], [0, 60, 0.6], [70, -50, 0.5]].map(q => bird1(q[0], q[1], q[2])).join("");
   A.starname = A.star + `<text class="callig" text-anchor="middle" font-size="100" y="190">محمد</text>`;
-  A.lamp = `${glow(0, -34, 90)}<path d="M-16 0h32l-4 -10h-24Z" fill="var(--sil)"/><rect class="win" x="-14" y="-52" width="28" height="42" rx="6"/><path d="M-18 -52h36l-8 -14h-20Z" fill="var(--sil)"/><path d="M0 -66v-12" stroke="var(--sil)" stroke-width="4"/><circle cy="-82" r="6" fill="none" stroke="var(--sil)" stroke-width="3"/>`;
+  // An oil lamp on a low stand: a wide dish with a flame, so it can only read as a lamp.
+  A.lamp = `${glow(0, -48, 95)}<path d="M-20 0 L-12 -20 H12 L20 0Z" fill="var(--sil)"/><path d="M-34 -24 Q0 -6 34 -24 Q40 -32 26 -32 H-26 Q-40 -32 -34 -24Z" fill="var(--sil2)"/><path d="M26 -32 q16 -4 20 6 q-12 -2 -18 4Z" fill="var(--sil2)"/><path class="win" d="M0 -32 Q-11 -46 0 -66 Q11 -46 0 -32Z"/>`;
   A.cave = `${glow(0, -40, 150)}<path d="M-60 0 Q-66 -92 0 -96 Q66 -92 60 0Z" fill="#17141d"/><path class="win" d="M-40 0 Q-44 -66 0 -70 Q44 -66 40 0Z"/>`;
   A.stall = `<rect x="-88" y="-120" width="8" height="120" fill="var(--trunk)"/><rect x="80" y="-120" width="8" height="120" fill="var(--trunk)"/><g class="awn"><path d="M-104 -118h208l-16 -34h-176Z" fill="#8f2f3a"/><path d="M-62 -118l8 -34h36l-4 34Z M18 -118l-4 -34h36l8 34Z" fill="var(--pale)"/><path d="M-104 -118q13 16 26 0q13 16 26 0q13 16 26 0q13 16 26 0q13 16 26 0q13 16 26 0q13 16 26 0q13 16 26 0" fill="#8f2f3a"/></g><rect x="-96" y="-48" width="192" height="12" rx="4" fill="var(--sil)"/><path d="M-70 -48 q-4 -30 14 -30 q18 0 14 30Z" fill="var(--sil2)"/><path d="M-22 -48 q-4 -24 12 -24 q16 0 12 24Z" fill="var(--sil3)"/><rect x="20" y="-62" width="50" height="14" rx="7" fill="#2f5d7a"/><rect x="26" y="-74" width="40" height="12" rx="6" fill="#e2b23c"/>`;
   A.scale = `<rect x="-5" y="-130" width="10" height="130" rx="4" fill="var(--sil)"/><path d="M-34 0h68l-8 -12h-52Z" fill="var(--sil)"/><g class="beam"><rect x="-84" y="-134" width="168" height="8" rx="4" fill="${GOLD}"/><path d="M-78 -128 L-100 -70 M-78 -128 L-56 -70 M78 -128 L56 -70 M78 -128 L100 -70" stroke="var(--sil)" stroke-width="2.5"/><path d="M-106 -70h56q-4 22 -28 22q-24 0 -28 -22Z M50 -70h56q-4 22 -28 22q-24 0 -28 -22Z" fill="${GOLD}"/><circle cx="-78" cy="-76" r="9" fill="var(--sil2)"/><circle cx="78" cy="-76" r="9" fill="var(--sil2)"/></g><circle cy="-130" r="9" fill="${GOLD}"/>`;
@@ -119,6 +128,8 @@
     gate: (x, y, s) => T("gate", "light", "creak", x, y, s, A.gate, [-100, -215, 200, 225]),
     hall: (x, y, s) => T("door", "open", "creak", x, y, s, A.hall, [-135, -225, 270, 235]),
     name: (x, y, s, txt) => T("name", "name", "twinkle", x, y, s, callig(txt, 150), [-230, -180, 460, 240]),
+    bird: (x, y, s) => T("bird", "hop", "chirp", x, y, s, A.bird, [-40, -45, 80, 55]),
+    masjid: (x, y, s) => T("mosque", "light", "chime", x, y, s, masjid, [-190, -130, 380, 140]),
     dust: (x, y, s) => T("dust", "pulse", "whoosh", x, y, s, A.dust, [-90, -90, 200, 100]),
     shadow: (x, y, s) => T("shadow", "pulse", "thud", x, y, s, A.eleph, [-150, -200, 330, 220]),
     specks: (x, y, s) => T("specks", "fly", "chirp", x, y, s, A.specks, [-190, -90, 380, 180]),
@@ -140,7 +151,8 @@
     stall: (x, y, s) => P(x, y, s, A.stall),
     cave: (x, y, s, lit) => P(x, y, s, A.cave, lit ? "on" : ""),
     hall: (x, y, s) => P(x, y, s, A.hall),
-    camp: (x, y, s) => P(x, y, s, A.camp)
+    camp: (x, y, s) => P(x, y, s, A.camp),
+    masjid: (x, y, s, lit) => P(x, y, s, masjid, lit ? "on" : "")
   };
 
   /* ---------- backdrops ----------
@@ -177,7 +189,7 @@
   };
   // Each drawing gets its own gradient ids, so a night scene never borrows another scene's day sky.
   let uid = 0;
-  const SKY = /data-name="(orb|stars|star|cloud|birds|name|specks)"/;
+  const SKY = /data-name="(orb|stars|star|cloud|birds|specks)"/;
   const S = (mood, back, ...parts) => {
     const u = ++uid, b = B[back];
     const up = parts.filter((x) => SKY.test(x.slice(0, 90))).join(""), land = parts.filter((x) => !SKY.test(x.slice(0, 90))).join("");
@@ -188,7 +200,24 @@
   const town = (x, y) => p.house(x, y, 1, 90, 70) + p.house(x + 95, y + 14, 1, 70, 54) + p.house(x - 80, y + 18, 1, 64, 48);
 
   /* ---------- the scenes, story by story ---------- */
+  /* Every slide has exactly one N(...): the thing that answers the slide's question. Keep it between
+     x 130 and 870 so it is inside the part of the picture a tablet shows. */
   SN.art = {
+    bird: [
+      () => S("", "valley", t.orb(760, 200, 0.9), p.house(330, 512, 1.4, 120, 96, 1), t.palm(180, 548, 1.1), N(t.bird(600, 562, 2.2))),
+      () => S("dusk", "valley", N(t.house(480, 518, 1.6, 130, 100, 1)), t.palm(200, 548, 1.2), t.bird(720, 564, 1.7), t.orb(770, 230, 0.9)),
+      () => S("dusk", "valley", p.house(260, 512, 1.4, 120, 96, 1, 1), N(t.mat(560, 562, 1.5)), t.lamp(790, 560, 1.2), t.bird(420, 566, 1.5))
+    ],
+    camelcry: [
+      () => S("", "dunes", t.orb(220, 200, 0.9), t.palm(290, 522, 1.1), N(t.palm(520, 548, 1.7)), t.palm(760, 528, 1.2)),
+      () => S("", "dunes", t.palm(210, 532, 1.3), t.palm(810, 532, 1.3), N(t.camel(500, 562, 1.2)), t.cloud(600, 140, 1)),
+      () => S("", "dunes", p.camel(380, 562, 1.2), t.palm(180, 532, 1.3), N(t.grass(700, 578, 1.2)), t.orb(760, 200, 0.9))
+    ],
+    prayer: [
+      () => S("dusk", "valley", N(t.masjid(500, 522, 1.25)), t.palm(180, 548, 1.2), t.palm(830, 548, 1.2), t.orb(760, 210, 0.8)),
+      () => S("night", "valley", p.masjid(420, 522, 1.15, 1), N(t.lamp(770, 562, 1.5)), t.stars(420, 110, 1), t.palm(160, 548, 1.1)),
+      () => S("night", "valley", p.masjid(480, 522, 1.15, 1), t.palm(170, 548, 1.1), t.lamp(820, 562, 1.2), N(t.stars(500, 120, 1.3)))
+    ],
     elephant: [
       () => S("", "valley", t.orb(800, 250, 1), town(250, 478), p.house(700, 486, 1, 84, 60), t.kaaba(500, 505, 1.2), t.palm(110, 545, 1.1), t.palm(900, 548, 1.2), N(t.dust(230, 400, 1.1), 1)),
       () => S("dusk", "dunes", t.orb(160, 270, 1), p.camp(360, 506, 1), t.palm(60, 540, 1), t.cloud(600, 150, 1), N(t.shadow(720, 552, 0.8), 1)),
@@ -198,81 +227,82 @@
       () => S("night", "valley", town(240, 478), p.kaaba(520, 505, 1.2), t.house(770, 500, 1.2, 96, 76, 1), t.palm(160, 548, 1.1), N(t.starname(500, 150, 0.8)))
     ],
     birth: [
-      () => S("night", "valley", t.orb(830, 110, 0.9), p.kaaba(820, 470, 0.6), t.house(420, 510, 1.5, 120, 96, 1), t.palm(160, 540, 1.2)),
-      () => S("dawn", "valley", t.orb(760, 400, 1.1, "rise"), p.house(420, 510, 1.5, 120, 96, 1, 1), t.birds(300, 150, 0.8), t.palm(160, 540, 1.2)),
-      () => S("", "valley", t.kaaba(500, 500, 1.4), t.birds(250, 140, 0.8), t.palm(120, 540, 1.1), t.palm(900, 545, 1.2)),
-      () => S("night", "valley", t.name(500, 300, 1, "محمد"), t.stars(500, 90, 1), p.house(180, 500, 1, 110, 90, 1, 1), p.kaaba(840, 490, 0.7)),
-      () => S("", "valley", t.orb(170, 110, 1), t.kaaba(520, 500, 1.2), town(820, 470), t.palm(110, 540, 1.1), t.cloud(600, 130, 1))
+      () => S("night", "valley", t.orb(760, 130, 0.9), p.kaaba(800, 482, 0.6), N(t.house(430, 518, 1.5, 120, 96, 1)), t.palm(190, 548, 1.2)),
+      () => S("dawn", "valley", N(t.orb(700, 400, 1.1, "rise")), p.house(400, 518, 1.5, 120, 96, 1, 1), t.birds(300, 150, 0.8), t.palm(180, 548, 1.2)),
+      () => S("", "valley", N(t.kaaba(500, 508, 1.4)), t.birds(280, 150, 0.8), t.palm(170, 548, 1.1), t.palm(830, 548, 1.2)),
+      () => S("night", "valley", N(t.name(500, 300, 1, "محمد")), t.stars(500, 90, 1), p.house(220, 508, 1, 110, 90, 1, 1), p.kaaba(800, 498, 0.7)),
+      () => S("", "valley", N(t.orb(260, 180, 1)), t.kaaba(540, 508, 1.2), town(790, 480), t.palm(150, 548, 1.1), t.cloud(620, 130, 1))
     ],
     halimah: [
-      () => S("", "dunes", t.orb(840, 100, 1), t.tent(250, 500, 1), p.tent(520, 470, 0.6), t.camel(720, 540, 0.9), t.palm(930, 520, 1)),
-      () => S("", "dunes", t.donkey(330, 545, 1.5, "plod", 1), t.camel(730, 540, 0.9), p.kaaba(120, 440, 0.45), t.cloud(500, 120, 1)),
-      () => S("", "dunes", t.donkey(330, 545, 1.5, "trot"), t.camel(730, 540, 0.9), t.palm(930, 520, 1), t.orb(150, 100, 0.9)),
-      () => S("dusk", "dunes", p.tent(200, 490, 0.9), t.goat(430, 550, 1.3), t.goat(640, 535, 1.1), t.grass(820, 560, 1), t.orb(850, 150, 0.9)),
-      () => S("night", "dunes", t.tent(280, 510, 1.1), t.stars(520, 110, 1.2), t.orb(860, 110, 0.8), p.sheep(640, 550, 1), t.palm(900, 530, 1))
+      () => S("", "dunes", t.orb(780, 180, 1), N(t.tent(300, 508, 1)), p.tent(540, 480, 0.6), t.camel(720, 550, 0.9), t.palm(170, 532, 1)),
+      () => S("", "dunes", N(t.donkey(360, 552, 1.5, "plod", 1)), t.camel(700, 548, 0.9), p.kaaba(170, 470, 0.4), t.cloud(520, 130, 1)),
+      () => S("", "dunes", N(t.donkey(360, 552, 1.5, "trot")), t.camel(700, 548, 0.9), t.palm(840, 528, 1), t.orb(230, 170, 0.9)),
+      () => S("dusk", "dunes", p.tent(230, 498, 0.9), N(t.goat(450, 558, 1.3)), t.goat(650, 544, 1.1), t.grass(800, 574, 0.9), t.orb(780, 200, 0.9)),
+      () => S("night", "dunes", t.tent(300, 518, 1.1), N(t.stars(520, 120, 1.2)), t.orb(790, 130, 0.8), p.sheep(640, 558, 1), t.palm(840, 538, 1))
     ],
     family: [
-      () => S("", "valley", t.house(400, 510, 1.5, 120, 96, 1), p.kaaba(820, 470, 0.6), t.palm(160, 540, 1.2), t.orb(840, 100, 0.9)),
-      () => S("dusk", "dunes", t.camel(420, 545, 1.1), t.palm(820, 520, 1.1), t.cloud(300, 120, 1), t.orb(800, 180, 0.9)),
-      () => S("", "valley", p.kaaba(560, 480, 1.4), t.mat(330, 545, 1.3), t.palm(110, 540, 1.1), t.birds(760, 140, 0.7)),
-      () => S("dusk", "valley", t.house(480, 520, 1.5, 200, 110, 3), p.house(160, 500, 1, 90, 70), t.palm(860, 540, 1.2), p.kaaba(880, 440, 0.4)),
-      () => S("night", "valley", t.stars(480, 110, 1.2), t.orb(850, 110, 0.9), p.house(300, 510, 1.3, 120, 96, 1, 1), p.kaaba(760, 490, 0.8), t.palm(110, 540, 1.1))
+      () => S("", "valley", N(t.house(420, 518, 1.5, 120, 96, 1)), p.kaaba(780, 482, 0.6), t.palm(190, 548, 1.2), t.orb(770, 150, 0.9)),
+      () => S("dusk", "dunes", N(t.camel(440, 552, 1.1, 1)), t.palm(790, 528, 1.1), t.cloud(320, 130, 1), t.orb(740, 220, 0.9)),
+      () => S("dusk", "valley", t.camel(270, 554, 0.9), N(t.kaaba(650, 508, 0.9)), t.palm(840, 548, 1.1), t.stars(400, 100, 0.9)),
+      () => S("", "valley", p.kaaba(600, 488, 1.4), N(t.mat(350, 555, 1.3)), t.palm(160, 548, 1.1), t.birds(740, 150, 0.7)),
+      () => S("dusk", "valley", N(t.house(500, 528, 1.5, 200, 110, 3)), p.house(200, 508, 1, 90, 70), t.palm(820, 548, 1.2)),
+      () => S("night", "valley", t.stars(450, 110, 1.2), N(t.orb(760, 140, 0.9)), p.house(320, 518, 1.3, 120, 96, 1, 1), p.kaaba(620, 498, 0.8), t.palm(160, 548, 1.1))
     ],
     shepherd: [
-      () => S("", "hills", t.orb(840, 100, 1), town(180, 440), t.sheep(450, 555, 1.4), t.sheep(700, 540, 1.1)),
-      () => S("", "hills", t.sheep(260, 550, 1.3), p.sheep(430, 560, 1.2), t.sheep(830, 470, 0.9, "wander"), t.cloud(500, 120, 1)),
-      () => S("", "hills", t.sheep(300, 555, 1.4), t.sheep(560, 545, 1.2), t.palm(860, 520, 1.2), t.birds(450, 140, 0.7)),
-      () => S("night", "hills", t.stars(480, 110, 1.3), t.orb(850, 110, 0.9), p.sheep(300, 560, 1.2), p.sheep(440, 570, 1.1), t.sheep(610, 560, 1.2)),
-      () => S("dawn", "hills", t.orb(780, 380, 1.1, "rise"), t.sheep(330, 555, 1.4), t.sheep(560, 548, 1.2), t.palm(110, 530, 1.1))
+      () => S("", "hills", t.orb(770, 150, 1), town(220, 450), N(t.sheep(470, 560, 1.4)), t.sheep(700, 548, 1.1)),
+      () => S("", "hills", t.sheep(280, 558, 1.3), p.sheep(440, 568, 1.2), N(t.sheep(780, 478, 0.9, "wander")), t.cloud(500, 130, 1)),
+      () => S("", "hills", t.sheep(320, 560, 1.4), t.sheep(560, 552, 1.2), N(t.palm(780, 532, 1.3)), t.birds(450, 150, 0.7)),
+      () => S("night", "hills", N(t.stars(480, 120, 1.3)), t.orb(780, 130, 0.9), p.sheep(320, 568, 1.2), p.sheep(450, 575, 1.1), t.sheep(610, 568, 1.2)),
+      () => S("dawn", "hills", N(t.orb(720, 390, 1.1, "rise")), t.sheep(340, 560, 1.4), t.sheep(560, 555, 1.2), t.palm(170, 538, 1.1))
     ],
     amin: [
-      () => S("", "valley", t.orb(830, 100, 1), town(200, 470), t.house(560, 510, 1.3, 120, 96, 1), p.kaaba(850, 480, 0.7), t.palm(940, 545, 1)),
-      () => S("", "valley", t.stall(280, 540, 1.2), t.scale(680, 545, 1.2), p.house(900, 480, 1, 84, 60)),
-      () => S("night", "valley", t.name(500, 310, 1, "الأمين"), t.stars(500, 90, 1), p.kaaba(850, 490, 0.7), p.house(160, 500, 1, 100, 80, 1, 1)),
-      () => S("", "valley", t.chest(480, 550, 1.7), p.house(180, 490, 1.1, 110, 90), t.lamp(760, 550, 1.2), t.palm(920, 545, 1)),
-      () => S("dusk", "valley", t.hall(480, 530, 1.2), t.lamp(190, 550, 1.2), t.palm(860, 545, 1.2))
+      () => S("", "valley", N(t.orb(740, 180, 1)), town(240, 480), t.house(520, 518, 1.3, 120, 96, 1), p.kaaba(790, 490, 0.7)),
+      () => S("", "valley", t.stall(300, 548, 1.2), N(t.scale(660, 552, 1.2)), p.house(850, 490, 1, 84, 60)),
+      () => S("night", "valley", N(t.name(500, 310, 1, "الأمين")), t.stars(500, 90, 1), p.kaaba(800, 498, 0.7), p.house(210, 508, 1, 100, 80, 1, 1)),
+      () => S("", "valley", N(t.chest(500, 558, 1.7)), p.house(220, 498, 1.1, 110, 90), t.lamp(740, 558, 1.2), t.palm(850, 548, 1)),
+      () => S("dusk", "valley", N(t.hall(500, 538, 1.2)), t.lamp(220, 558, 1.2), t.palm(820, 548, 1.2))
     ],
     syria: [
-      () => S("", "valley", town(170, 460), t.camel(470, 550, 1, 1), t.camel(740, 545, 0.9, 1), t.orb(850, 100, 0.9)),
-      () => S("night", "dunes", t.stars(450, 110, 1.2), t.camel(330, 550, 1, 1), p.tent(700, 500, 0.9), t.lamp(860, 550, 1.1)),
-      () => S("", "valley", t.hall(600, 520, 1.2), t.camel(220, 550, 0.9, 1), t.palm(900, 540, 1.1)),
-      () => S("", "valley", p.hall(680, 520, 1.1), t.cloud(360, 130, 1.2), t.palm(330, 545, 1.5), t.birds(700, 120, 0.6)),
-      () => S("dusk", "dunes", t.camel(360, 550, 1.1), p.kaaba(880, 440, 0.5), t.palm(770, 500, 0.8), t.orb(160, 150, 0.9))
+      () => S("", "valley", town(210, 470), N(t.camel(480, 558, 1, 1)), t.camel(720, 550, 0.9, 1), t.orb(770, 150, 0.9)),
+      () => S("night", "dunes", N(t.stars(470, 120, 1.2)), t.camel(340, 558, 1, 1), p.tent(680, 508, 0.9), t.lamp(820, 558, 1.1)),
+      () => S("", "valley", N(t.hall(600, 528, 1.2)), t.camel(250, 558, 0.9, 1), t.palm(840, 548, 1.1)),
+      () => S("", "valley", p.hall(660, 528, 1.1), t.cloud(380, 140, 1.2), N(t.palm(340, 552, 1.5)), t.birds(680, 130, 0.6)),
+      () => S("dusk", "dunes", N(t.camel(400, 558, 1.1)), p.kaaba(820, 468, 0.5), t.palm(700, 508, 0.8), t.orb(230, 200, 0.9))
     ],
     khadijah: [
-      () => S("", "valley", t.stall(300, 540, 1.2), t.house(700, 520, 1.4, 150, 110, 2), t.palm(930, 545, 1)),
-      () => S("", "dunes", t.camel(300, 550, 1, 1), t.camel(600, 545, 0.9, 1), t.palm(880, 520, 1.1), t.orb(840, 100, 0.9)),
-      () => S("", "valley", t.scale(480, 550, 1.4), p.stall(180, 520, 1), t.stall(820, 530, 1)),
-      () => S("dusk", "valley", t.camel(300, 550, 1, 1), t.house(720, 520, 1.4, 150, 110, 2), t.palm(520, 540, 1)),
-      () => S("night", "valley", t.house(480, 520, 1.5, 170, 110, 2), t.lamp(240, 550, 1.2), t.lamp(740, 550, 1.2), t.orb(850, 110, 0.8), t.stars(380, 100, 1))
+      () => S("", "valley", t.stall(290, 548, 1.2), N(t.house(660, 528, 1.4, 150, 110, 2)), t.palm(850, 548, 1)),
+      () => S("", "dunes", N(t.camel(330, 558, 1, 1)), t.camel(600, 550, 0.9, 1), t.palm(820, 528, 1.1), t.orb(760, 160, 0.9)),
+      () => S("", "valley", N(t.scale(500, 558, 1.4)), p.stall(210, 528, 1), t.stall(790, 538, 1)),
+      () => S("dusk", "valley", N(t.camel(320, 558, 1, 1)), t.house(690, 528, 1.4, 150, 110, 2), t.palm(510, 548, 1)),
+      () => S("night", "valley", t.house(500, 528, 1.5, 170, 110, 2), N(t.lamp(260, 558, 1.2)), t.lamp(740, 558, 1.2), t.orb(780, 130, 0.8), t.stars(380, 110, 1))
     ],
     stone: [
-      () => S("", "valley", t.wall(500, 520, 1.7, 2), t.palm(120, 540, 1.1), town(840, 470), t.orb(160, 100, 0.9)),
-      () => S("", "valley", p.wall(480, 520, 1.7, 6), t.bstone(760, 560, 1.4), t.palm(120, 540, 1.1)),
-      () => S("", "valley", t.gate(500, 540, 1.4), p.wall(140, 500, 0.9, 6), t.palm(880, 545, 1.2)),
-      () => S("dawn", "valley", t.gate(500, 540, 1.4), t.birds(220, 130, 0.7), t.palm(880, 545, 1.2), t.orb(830, 330, 0.9, "rise")),
-      () => S("", "valley", p.wall(790, 500, 1.3, 6), t.cloth(420, 560, 1.4), t.palm(110, 530, 1))
+      () => S("", "valley", N(t.wall(500, 528, 1.7, 2)), t.palm(170, 548, 1.1), town(790, 480), t.orb(230, 170, 0.9)),
+      () => S("", "valley", p.wall(450, 528, 1.7, 6), N(t.bstone(720, 568, 1.4)), t.palm(170, 548, 1.1)),
+      () => S("", "valley", N(t.gate(500, 548, 1.4)), p.wall(190, 508, 0.9, 6), t.palm(820, 548, 1.2)),
+      () => S("dawn", "valley", N(t.gate(500, 548, 1.4)), t.birds(260, 140, 0.7), t.palm(820, 548, 1.2), t.orb(760, 340, 0.9, "rise")),
+      () => S("", "valley", p.wall(760, 508, 1.3, 6), N(t.cloth(430, 568, 1.4)), t.palm(160, 538, 1))
     ],
     hira: [
-      () => S("", "valley", t.orb(830, 100, 1), town(200, 470), t.kaaba(540, 500, 1.1), t.palm(920, 545, 1.1)),
-      () => S("", "mount", t.cave(585, 250, 0.55, "pulse"), t.cloud(200, 130, 1), t.palm(120, 550, 1.1)),
-      () => S("night", "mount", p.cave(585, 250, 0.55), t.basket(250, 570, 1.3), t.lamp(420, 570, 1.2), t.orb(140, 110, 0.8)),
-      () => S("night", "mount", p.cave(585, 250, 0.55), t.stars(250, 120, 1.1), t.orb(860, 110, 0.9), t.palm(120, 550, 1.1)),
-      () => S("dawn", "mount", p.cave(585, 250, 0.55), t.orb(160, 400, 1.1, "rise"), t.birds(260, 150, 0.7))
+      () => S("", "valley", t.orb(760, 160, 1), town(240, 480), N(t.kaaba(540, 508, 1.1)), t.palm(830, 548, 1.1)),
+      () => S("", "mount", N(t.cave(585, 250, 0.55, "pulse")), t.cloud(250, 140, 1), t.palm(170, 558, 1.1)),
+      () => S("night", "mount", p.cave(585, 250, 0.55), N(t.basket(280, 578, 1.3)), t.lamp(430, 578, 1.2), t.orb(200, 130, 0.8)),
+      () => S("night", "mount", p.cave(585, 250, 0.55), N(t.stars(260, 130, 1.1)), t.orb(790, 130, 0.9), t.palm(170, 558, 1.1)),
+      () => S("dawn", "mount", p.cave(585, 250, 0.55), N(t.orb(250, 400, 1.1, "rise")), t.birds(300, 160, 0.7))
     ],
     read: [
-      () => S("night", "mount", t.cave(585, 250, 0.7), t.stars(230, 120, 1), t.orb(880, 100, 0.7)),
-      () => S("night", "mount", p.cave(585, 250, 0.7, 1), t.stars(230, 120, 1), t.star(820, 120, 0.7)),
-      () => S("night", "mount", p.cave(585, 250, 0.5, 1), t.name(330, 330, 0.9, "اقْرَأْ"), t.stars(800, 100, 0.8)),
-      () => S("night", "valley", t.house(450, 520, 1.6, 130, 100, 1), t.lamp(720, 555, 1.2), t.stars(300, 100, 1), p.kaaba(880, 470, 0.5)),
-      () => S("dawn", "valley", p.house(330, 520, 1.5, 130, 100, 1, 1), t.orb(760, 380, 1.1, "rise"), t.kaaba(820, 500, 0.8), t.palm(110, 540, 1.1))
+      () => S("night", "mount", N(t.cave(585, 250, 0.7)), t.stars(260, 130, 1), t.orb(800, 120, 0.7)),
+      () => S("night", "mount", p.cave(585, 250, 0.7, 1), t.stars(260, 130, 1), N(t.star(770, 140, 0.7))),
+      () => S("night", "mount", p.cave(585, 250, 0.5, 1), N(t.name(330, 330, 0.9, "اقْرَأْ")), t.stars(780, 110, 0.8)),
+      () => S("night", "valley", N(t.house(450, 528, 1.6, 130, 100, 1)), t.lamp(720, 560, 1.2), t.stars(320, 110, 1), p.kaaba(820, 480, 0.5)),
+      () => S("dawn", "valley", p.house(340, 528, 1.5, 130, 100, 1, 1), N(t.orb(700, 385, 1.1, "rise")), t.kaaba(820, 508, 0.8), t.palm(160, 548, 1.1))
     ],
     first: [
-      () => S("night", "valley", t.house(500, 520, 1.6, 130, 100, 1), t.stars(300, 100, 1), p.kaaba(860, 480, 0.6)),
-      () => S("night", "valley", p.house(250, 510, 1.2, 130, 100, 1, 1), t.lamp(520, 555, 1.4), t.stars(700, 100, 1)),
-      () => S("night", "valley", p.house(180, 500, 1.1, 120, 96, 1, 1), t.lamp(420, 555, 1.3), t.lamp(640, 555, 1.3), t.stars(760, 100, 0.9)),
-      () => S("night", "valley", p.house(140, 490, 1, 110, 90, 1, 1), t.house(400, 515, 1.2, 120, 96, 1), t.house(650, 510, 1.1, 110, 90, 1), t.house(870, 500, 1, 100, 84, 1)),
-      () => S("night", "valley", t.house(120, 500, 0.9, 110, 90, 1), t.house(300, 525, 1.1, 120, 96, 2), t.house(520, 510, 1, 110, 90, 1), t.house(710, 528, 1.1, 130, 96, 2), t.house(900, 505, 0.9, 100, 84, 1), t.stars(500, 90, 1.2))
+      () => S("night", "valley", N(t.house(500, 528, 1.6, 130, 100, 1)), t.stars(320, 110, 1), p.kaaba(810, 490, 0.6)),
+      () => S("night", "valley", p.house(270, 518, 1.2, 130, 100, 1, 1), N(t.lamp(540, 560, 1.4)), t.stars(700, 110, 1)),
+      () => S("night", "valley", p.house(220, 508, 1.1, 120, 96, 1, 1), N(t.lamp(440, 560, 1.3)), t.lamp(640, 560, 1.3), t.stars(740, 110, 0.9)),
+      () => S("night", "valley", p.house(190, 498, 1, 110, 90, 1, 1), N(t.house(420, 522, 1.2, 120, 96, 1)), t.house(640, 518, 1.1, 110, 90, 1), t.house(820, 508, 1, 100, 84, 1)),
+      () => S("night", "valley", t.house(180, 508, 0.9, 110, 90, 1), t.house(330, 532, 1.1, 120, 96, 2), t.house(520, 518, 1, 110, 90, 1), t.house(700, 535, 1.1, 130, 96, 2), t.house(850, 512, 0.9, 100, 84, 1), N(t.stars(500, 100, 1.2)))
     ]
   };
 
@@ -281,18 +311,7 @@
   /* When, during the voice-over, each thing in a picture plays by itself (0 = start, 1 = end).
      One entry per picture. Anything not listed is spread evenly through the telling. */
   SN.cues = {
-    elephant: [{ orb: 0.08, kaaba: 0.3, palm: 0.6 }, { orb: 0.1, palm: 0.3, cloud: 0.6 }, { orb: 0.15, palm: 0.5 }, { palm: 0.4 }, { birds: 0.05, palm: 0.6 }, { house: 0.75, palm: 0.3 }],
-    birth: [{ house: 0.75, orb: 0.1 }, { orb: 0.15, birds: 0.6 }, { birds: 0.15, kaaba: 0.6 }, { stars: 0.15, name: 0.5 }, { kaaba: 0.3, orb: 0.75 }],
-    halimah: [{ tent: 0.3, camel: 0.7 }, { donkey: 0.3, camel: 0.5 }, { camel: 0.3, donkey: 0.55 }, { goat: 0.5, grass: 0.8 }, { stars: 0.5, tent: 0.8 }],
-    family: [{ house: 0.6 }, { camel: 0.3, cloud: 0.7 }, { mat: 0.55, birds: 0.2 }, { house: 0.6 }, { stars: 0.3, orb: 0.6 }],
-    shepherd: [{ sheep: 0.6 }, { sheep: 0.45 }, { sheep: 0.3 }, { stars: 0.5, sheep: 0.2 }, { orb: 0.2, sheep: 0.6 }],
-    amin: [{ house: 0.5 }, { stall: 0.2, scale: 0.6 }, { stars: 0.2, name: 0.55 }, { chest: 0.45, lamp: 0.8 }, { door: 0.7, lamp: 0.3 }],
-    syria: [{ camel: 0.5 }, { camel: 0.2, stars: 0.75, lamp: 0.6 }, { camel: 0.15, door: 0.8 }, { cloud: 0.3, palm: 0.6 }, { camel: 0.25 }],
-    khadijah: [{ stall: 0.5, house: 0.2 }, { camel: 0.5 }, { scale: 0.25, stall: 0.7 }, { camel: 0.15, house: 0.5 }, { house: 0.4, lamp: 0.65 }],
-    stone: [{ wall: 0.55 }, { stone: 0.55 }, { gate: 0.7 }, { orb: 0.05, gate: 0.2 }, { cloth: 0.5 }],
-    hira: [{ kaaba: 0.6 }, { cave: 0.7, cloud: 0.2 }, { basket: 0.2, lamp: 0.45 }, { stars: 0.4, orb: 0.7 }, { orb: 0.2, birds: 0.6 }],
-    read: [{ stars: 0.2, cave: 0.7 }, { stars: 0.5, star: 0.75 }, { name: 0.45, stars: 0.8 }, { house: 0.75, lamp: 0.85 }, { orb: 0.6, kaaba: 0.85 }],
-    first: [{ house: 0.75 }, { lamp: 0.4 }, { lamp: 0.25 }, { house: 0.35 }, { house: 0.25, stars: 0.85 }]
+    elephant: [{ orb: 0.08, kaaba: 0.3, palm: 0.6 }, { orb: 0.1, palm: 0.3, cloud: 0.6 }, { orb: 0.15, palm: 0.5 }, { palm: 0.4 }, { birds: 0.05, palm: 0.6 }, { house: 0.75, palm: 0.3 }]
   };
 
   /* What each tappable thing is called, for the "can you find..." prompt. */
@@ -302,6 +321,7 @@
     tent: ["the tent", "خیمہ"], orb: ["the light in the sky", "آسمان کی روشنی"], star: ["the big star", "بڑا ستارہ"], stars: ["the stars", "ستارے"],
     cloud: ["the cloud", "بادل"], lamp: ["the lamp", "چراغ"], cave: ["the cave", "غار"], stall: ["the market stall", "دکان"], scale: ["the scales", "ترازو"],
     chest: ["the box", "صندوق"], cloth: ["the cloth", "چادر"], stone: ["the Black Stone", "حجرِ اسود"], mat: ["the mat", "بچھونا"], basket: ["the basket", "ٹوکری"],
+    bird: ["the little bird", "ننھی چڑیا"], mosque: ["the mosque", "مسجد"],
     starname: ["the star", "ستارہ"], dust: ["the dust", "گرد"], shadow: ["the big shape", "بڑی سی چیز"], specks: ["the dots in the sky", "آسمان کے نقطے"],
     grass: ["the grass", "گھاس"], wall: ["the wall", "دیوار"], gate: ["the gate", "دروازہ"], door: ["the door", "دروازہ"], name: ["the shining name", "چمکتا ہوا نام"]
   };
@@ -312,6 +332,9 @@
 
   /* ---------- small pictures for the story path ---------- */
   SN.icons = {
+    bird: '<ellipse cx="22" cy="28" rx="13" ry="9" fill="#c98a5a"/><circle cx="33" cy="20" r="7" fill="#c98a5a"/><path d="M39 19l7 2-7 3Z" fill="#e2b23c"/><path d="M10 27l-8-5 2 9Z" fill="#8a5a3a"/><circle cx="35" cy="18" r="1.500" fill="#1b1b22"/><path d="M19 37v6M26 37v6" stroke="#8a5a3a" stroke-width="2"/>',
+    tear: '<ellipse cx="20" cy="28" rx="13" ry="7" fill="#d9a566"/><circle cx="20" cy="20" r="6" fill="#d9a566"/><path d="M31 27 37 12" stroke="#d9a566" stroke-width="5" stroke-linecap="round"/><circle cx="39" cy="11" r="4" fill="#d9a566"/><rect x="10" y="32" width="3" height="11" fill="#b98346"/><rect x="27" y="32" width="3" height="11" fill="#b98346"/><path d="M42 17q3 5 0 7q-3-2 0-7Z" fill="#6fb3e0"/>',
+    masjid: '<rect x="6" y="20" width="36" height="22" rx="2" fill="#c9a36f"/><path d="M4 20l4-5 4 5 4-5 4 5 4-5 4 5 4-5 4 5 4-5 4 5Z" fill="#2f7d5b"/><path d="M19 42V32a5 5 0 0 1 10 0v10Z" fill="#ffd76a"/><rect x="5" y="20" width="3" height="22" fill="#8a5a2b"/><rect x="40" y="20" width="3" height="22" fill="#8a5a2b"/>',
     eleph: '<ellipse cx="22" cy="28" rx="14" ry="10" fill="#959db0"/><circle cx="34" cy="22" r="8" fill="#959db0"/><path d="M40 24q5 8 1 15" stroke="#959db0" stroke-width="4" fill="none" stroke-linecap="round"/><rect x="12" y="34" width="5" height="9" rx="2" fill="#7d8598"/><rect x="26" y="34" width="5" height="9" rx="2" fill="#7d8598"/><circle cx="36" cy="20" r="1.5" fill="#1b1b22"/>',
     moon: '<path d="M30 8a16 16 0 1 0 10 28a13 13 0 1 1-10-28z" fill="#f0a22e"/><circle cx="36" cy="14" r="2.5" fill="#f0a22e"/>',
     tent: '<path d="M6 40 24 10 42 40Z" fill="#c9793f"/><path d="M19 40 24 26 29 40Z" fill="#3a2a22"/><path d="M24 10v-5l6 2.500-6 2.500" fill="#b8473d"/>',

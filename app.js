@@ -118,30 +118,47 @@
   }
 
   function startStory(n) {
-    cur = { n, i: 0, opening: true };
+    // again = he has heard this story to the end before.
+    cur = { n, i: 0, opening: true, again: st.heard.includes(SN.stories[n].id) };
     show("story");
-    $("end").hidden = true; $("story").classList.remove("ended");
+    $("end").hidden = true; $("story").classList.remove("ended"); $("stagewrap").classList.remove("dim");
     renderScene();
     restGuideInStory();
+    if (!cur.again) {
+      // A new story is heard together the first time: invite him to fetch a grown-up, and wait.
+      cur.waiting = true; setIcon(false); $("together").hidden = false;
+      A.say({ key: "together:" + st.lang, text: SN.ritual.together[st.lang], lang: st.lang });
+      return;
+    }
+    begin();
+  }
+  function begin() {
+    if (!cur) return;
+    cur.waiting = false; $("together").hidden = true;
     setIcon(true);
     // Every story opens the same way.
     A.say({ key: "open:" + st.lang, text: SN.ritual.open[st.lang], lang: st.lang, onend: () => { if (cur && cur.opening) { cur.opening = false; tell(); } } });
+  }
+  function showWords(text, always) {
+    wordsEl.hidden = !(st.readAlong || always);
+    $("stagewrap").classList.toggle("haswords", !wordsEl.hidden);
+    wordsEl.dir = st.lang === "ur" ? "rtl" : "ltr";
+    wordsEl.innerHTML = text.split(/\s+/).map((w) => `<span>${esc(w)}</span>`).join(" ");
   }
 
   function renderScene() {
     const sc = SN.art[story().id][cur.i]();
     stage.innerHTML = sc.svg;
+    // On a first hearing only the answer can be touched; on later hearings everything can, once the telling ends.
+    stage.querySelector("svg").classList.toggle("again", !!cur.again);
+    cur.closing = false; $("stagewrap").classList.remove("dim");
     stage.style.animation = "none"; void stage.offsetWidth; stage.style.animation = "";
     $("norec").hidden = true; $("bNext").classList.remove("ask"); cur.leaving = false;
     restGuideInStory();
     $("dots").innerHTML = story().scenes.map((_, k) => `<i class="${k === cur.i ? "on" : ""}"></i>`).join("");
     const night = sc.mood === "night" || (sc.mood === "" && darkNow());
     if (cur.night !== night) { cur.night = night; A.ambient(true, night); }
-    const text = story().scenes[cur.i][st.lang];
-    wordsEl.hidden = !st.readAlong;
-    $("stagewrap").classList.toggle("haswords", st.readAlong);
-    wordsEl.dir = st.lang === "ur" ? "rtl" : "ltr";
-    wordsEl.innerHTML = text.split(/\s+/).map((w) => `<span>${esc(w)}</span>`).join(" ");
+    showWords(story().scenes[cur.i][st.lang]);
   }
   function markWord(i) {
     const sp = wordsEl.children;
@@ -207,7 +224,29 @@
   }
   function advance() {
     if (cur.i < story().scenes.length - 1) { cur.i++; renderScene(); tell(); }
-    else finish();
+    else closing();
+  }
+  const THINK = 6000; // the silence after the "why" question
+  const lessonText = (s, L) => [s.lesson[L], s.habit[L], s.dua[L]].join(" ");
+  function closing() {
+    clearTimers(); A.stop(); stopFilm();
+    cur.closing = true; cur.leaving = false;
+    const svg = stage.querySelector("svg"); if (svg) svg.classList.remove("asked");
+    $("stagewrap").classList.add("dim"); $("bNext").classList.remove("ask"); $("norec").hidden = true;
+    guide.classList.remove("calling"); guideTo(guideRest.x, guideRest.y);
+    const s = story(), L = st.lang;
+    showWords(s.why[L], true); setIcon(true);
+    A.say({
+      key: `${s.id}:why:${L}`, text: s.why[L], lang: L, onword: markWord,
+      onend: () => {
+        setIcon(false); markWord(999);
+        cur.t1 = setTimeout(() => {
+          const text = lessonText(s, L);
+          showWords(text, true); setIcon(true);
+          A.say({ key: `${s.id}:lesson:${L}`, text, lang: L, onword: markWord, onend: (how) => { setIcon(false); markWord(999); cur.t1 = setTimeout(finish, how === "none" ? 6000 : 900); } });
+        }, THINK);
+      }
+    });
   }
   function finish() {
     halt();
@@ -216,7 +255,8 @@
     // Every story closes the same way.
     A.say({ key: "close:" + st.lang, text: SN.ritual.close[st.lang], lang: st.lang, onend: () => {} });
     A.ambient(false); cur.night = null;
-    $("end").hidden = false; wordsEl.hidden = true; $("story").classList.add("ended");
+    $("end").hidden = false; wordsEl.hidden = true; $("story").classList.add("ended"); $("stagewrap").classList.remove("dim", "haswords");
+    $("eAsk").textContent = s.ask[st.lang][1]; $("eAsk").dir = st.lang === "ur" ? "rtl" : "ltr";
     A.sfx("done"); guide.classList.remove("calling"); guideTo(-200, -200);
     $("eMic").hidden = !(st.retell && A.canRecord());
     $("eHear").hidden = true;
@@ -255,14 +295,26 @@
 
   $("bPlay").onclick = () => {
     if (!cur || !$("end").hidden) return;
+    if (cur.waiting) { A.stop(); begin(); return; }
     if (A.active()) { if (A.playing()) { A.pause(); pauseFilm(true); setIcon(false); } else { A.resume(); pauseFilm(false); setIcon(true); } }
+    else if (cur.closing) closing();
     else { cur.opening = false; tell(); }
   };
-  $("bNext").onclick = () => { if (!cur || !$("end").hidden) return; halt(); A.sfx("pop"); if (cur.opening) { cur.opening = false; tell(); } else advance(); };
+  $("tGo").onclick = () => { if (cur && cur.waiting) { A.stop(); A.sfx("twinkle"); begin(); } };
+  $("bNext").onclick = () => {
+    if (!cur || !$("end").hidden) return;
+    if (cur.waiting) { A.stop(); begin(); return; }
+    halt(); A.sfx("pop");
+    if (cur.closing) finish();
+    else if (cur.opening) { cur.opening = false; tell(); }
+    else advance();
+  };
   $("bBack").onclick = () => {
     if (!cur) return;
+    if (cur.waiting) { goHome(); return; }
     halt(); A.sfx("pop"); cur.opening = false;
-    if (!$("end").hidden) { $("end").hidden = true; renderScene(); tell(); return; }
+    if (!$("end").hidden) { $("end").hidden = true; $("story").classList.remove("ended"); renderScene(); tell(); return; }
+    if (cur.closing) { renderScene(); tell(); return; }
     if (cur.i > 0) cur.i--;
     renderScene(); tell();
   };
@@ -319,8 +371,11 @@
   function recParts() {
     const s = SN.stories[ui.story], L = ui.lang;
     return [
+      { key: "together:" + L, label: "Invitation before a new story, used for every story", text: SN.ritual.together[L] },
       { key: "open:" + L, label: "Opening, used for every story", text: SN.ritual.open[L] },
       ...s.scenes.map((sc, i) => ({ key: `${s.id}:${i}:${L}`, label: `Picture ${i + 1} of ${s.scenes.length}`, text: sc[L] })),
+      { key: `${s.id}:why:${L}`, label: "The question to think about (a silence follows it)", text: s.why[L] },
+      { key: `${s.id}:lesson:${L}`, label: "The lesson, this week's habit and the du'a", text: lessonText(s, L) },
       { key: "close:" + L, label: "Closing, used for every story", text: SN.ritual.close[L] }
     ];
   }
@@ -330,7 +385,7 @@
     if (ui.tab !== "record") return;
     const done = have.filter((v) => v && v.blob).length;
     panel.innerHTML = `
-      <p>Record each part once, in your own voice. He hears your recording every time he opens the story. Where there is no recording yet, the device's built-in voice is used if it has one for that language.</p>
+      <p>Record each part once, in your own voice. Tell it slowly, with pauses, and leave a moment of quiet after each question. He hears your recording every time he opens the story. Where there is no recording yet, the device's built-in voice is used if it has one for that language.</p>
       <div class="frow">
         <label class="field">Story<select id="rStory">${storyOpts(ui.story)}</select></label>
         <label class="field">Language<select id="rLang">${Object.keys(LANGS).map((k) => `<option value="${k}" ${k === ui.lang ? "selected" : ""}>${LANGS[k]}</option>`).join("")}</select></label>
@@ -367,7 +422,7 @@
   function renderRead() {
     const s = SN.stories[ui.story], en = ui.show !== "ur", ur = ui.show !== "en";
     $("pPanel").innerHTML = `
-      <p>For the nights you tell it yourself. Read it, or better, tell it in your own words.</p>
+      <p>Hear each new story together with him the first time; after that he can open it alone. Telling it yourself, in your own words, is better still than any recording. Keep to what happened: do not add events or words that are not in the sources.</p>
       <div class="frow">
         <label class="field">Story<select id="dStory">${storyOpts(ui.story)}</select></label>
         <div class="seg" role="group" aria-label="Language shown">${[["en", "English"], ["ur", "Urdu"], ["both", "Both"]].map(([k, l]) => `<button type="button" data-show="${k}" aria-pressed="${ui.show === k}">${l}</button>`).join("")}</div>
@@ -375,11 +430,12 @@
       <div class="read">
         ${en ? `<h3>${esc(s.title.en)}</h3>` : ""}${ur ? `<h3 class="ur">${esc(s.title.ur)}</h3>` : ""}
         ${s.scenes.map((sc) => `<div class="sc">${en ? `<p>${esc(sc.en)}</p>` : ""}${ur ? `<p class="ur">${esc(sc.ur)}</p>` : ""}</div>`).join("")}
+        <h4>At the end: a question to think about, then the lesson, the habit and a du'a</h4>
+        <div class="sc">${en ? `<p>${esc(s.why.en)}</p>` : ""}${ur ? `<p class="ur">${esc(s.why.ur)}</p>` : ""}</div>
+        <div class="sc">${en ? `<p>${esc(lessonText(s, "en"))}</p>` : ""}${ur ? `<p class="ur">${esc(lessonText(s, "ur"))}</p>` : ""}</div>
         <h4>Ask him</h4>
         <div class="sc">${en ? `<ul>${s.ask.en.map((q) => `<li>${esc(q)}</li>`).join("")}</ul>` : ""}${ur ? `<ul class="ur">${s.ask.ur.map((q) => `<li>${esc(q)}</li>`).join("")}</ul>` : ""}</div>
-        <h4>This week we practise</h4>
-        <div class="sc">${en ? `<p>${esc(s.habit.en)}</p>` : ""}${ur ? `<p class="ur">${esc(s.habit.ur)}</p>` : ""}</div>
-        <h4>In The Sealed Nectar</h4>
+        <h4>Where to check it</h4>
         <p>${esc(s.book)}</p>
       </div>`;
     $("dStory").onchange = (e) => { ui.story = +e.target.value; renderRead(); };
