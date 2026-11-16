@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sealed Nectar Stories</title>
+<meta name="description" content="Stories from the life of the Prophet Muhammad, peace be upon him, for young children. Told in a parent's own voice.">
+<meta name="theme-color" content="#7cc8d4">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Baloo+2:wght@600;800&family=Noto+Nastaliq+Urdu:wght@500;700&family=Nunito:wght@500;700&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- His side: pictures, touch and voice only. -->
+<main id="kid">
+  <section id="home" aria-label="Story path">
+    <div id="homebg"></div>
+    <svg id="trail" aria-hidden="true"><path id="trailpath"/></svg>
+    <div id="tiles"></div>
+  </section>
+
+  <section id="story" hidden aria-label="Story">
+    <div id="stagewrap">
+      <div id="stage"></div>
+      <div id="norec" hidden role="img" aria-label="This part has not been recorded yet">
+        <svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.900V22h2v-3.100A7 7 0 0 0 19 12z"/><path d="M4 3l17 18" stroke="currentColor" stroke-width="2.500" stroke-linecap="round"/></svg>
+      </div>
+      <p id="words" hidden></p>
+      <div id="end" hidden>
+        <div class="endstar" aria-hidden="true"><svg viewBox="-110 -110 220 220"><g class="endrays" stroke="#ffd76a" stroke-width="7" stroke-linecap="round"><line y1="-70" y2="-100"/><line y1="-70" y2="-100" transform="rotate(45)"/><line y1="-70" y2="-100" transform="rotate(90)"/><line y1="-70" y2="-100" transform="rotate(135)"/><line y1="-70" y2="-100" transform="rotate(180)"/><line y1="-70" y2="-100" transform="rotate(225)"/><line y1="-70" y2="-100" transform="rotate(270)"/><line y1="-70" y2="-100" transform="rotate(315)"/></g><path d="M0-54 15-17 54-17 23 8 35 48 0 25-35 48-23 8-54-17-15-17Z" fill="#ffd76a"/></svg></div>
+        <div class="endrow">
+          <button class="big" id="eAgain" type="button" aria-label="Hear it again"><svg viewBox="0 0 24 24"><path d="M12 5V1L6 6l6 5V7a6 6 0 1 1-6 6H4a8 8 0 1 0 8-8z"/></svg></button>
+          <button class="big mic" id="eMic" type="button" hidden aria-label="Tell the story back"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.900V22h2v-3.100A7 7 0 0 0 19 12z"/></svg></button>
+          <button class="big" id="eHear" type="button" hidden aria-label="Hear my telling"><svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 5V4L8 9zm12 3a4 4 0 0 0-2-3.500v7A4 4 0 0 0 16 12zm-2-8v2a6 6 0 0 1 0 12v2a8 8 0 0 0 0-16z"/></svg></button>
+          <button class="big play" id="eHome" type="button" aria-label="Back to the story path"><svg viewBox="0 0 24 24"><path d="M12 3 2 12h3v9h5v-6h4v6h5v-9h3z"/></svg></button>
+        </div>
+      </div>
+    </div>
+    <nav id="ctl" aria-label="Story controls">
+      <button class="big" id="bHome" type="button" aria-label="Story path"><svg viewBox="0 0 24 24"><path d="M12 3 2 12h3v9h5v-6h4v6h5v-9h3z"/></svg></button>
+      <button class="big" id="bBack" type="button" aria-label="Go back"><svg viewBox="0 0 24 24"><path d="M15 4 6 12l9 8z"/></svg></button>
+      <button class="big play" id="bPlay" type="button" aria-label="Play or pause"><svg viewBox="0 0 24 24"><path id="playicon" d="M7 4v16l13-8z"/></svg></button>
+      <button class="big" id="bNext" type="button" aria-label="Go on"><svg viewBox="0 0 24 24"><path d="M9 4l9 8-9 8z"/></svg></button>
+    </nav>
+    <div id="dots" aria-hidden="true"></div>
+  </section>
+
+  <div id="guide" aria-hidden="true"></div>
+  <button id="gate" type="button" aria-label="For grown-ups: press and hold for three seconds">
+    <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" class="gatebg"/><circle cx="24" cy="24" r="20" class="gatering"/><circle cx="16" cy="24" r="2.500"/><circle cx="24" cy="24" r="2.500"/><circle cx="32" cy="24" r="2.500"/></svg>
+  </button>
+</main>
+
+<!-- Grown-ups' side. Built by app.js. -->
+<div id="parent" hidden></div>
+
+<script src="stories/stories.js"></script>
+<script src="scenes/scenes.js"></script>
+<script src="audio.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
