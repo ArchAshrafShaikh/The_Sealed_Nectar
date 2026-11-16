@@ -16,7 +16,8 @@
     heard: store.get("heard", []),          // ids of stories he has finished
     readAlong: store.get("readAlong", false),
     retell: store.get("retell", false),
-    sound: store.get("sound", true)
+    sound: store.get("sound", true),
+    storyteller: store.get("storyteller", true) // the built-in voice, where there is no recording
   };
   const save = (k, v) => { st[k] = v; store.set(k, v); };
   function applyTheme() {
@@ -26,6 +27,7 @@
   const darkNow = () => st.theme === "dark" || (st.theme === "auto" && matchMedia("(prefers-color-scheme: dark)").matches);
   applyTheme();
   A.setSound(st.sound);
+  A.setStoryteller(st.storyteller);
 
   /* ---------- his guide, the little bird ---------- */
   const guide = $("guide");
@@ -122,6 +124,10 @@
     cur = { n, i: 0, opening: true, again: st.heard.includes(SN.stories[n].id) };
     show("story");
     $("end").hidden = true; $("story").classList.remove("ended"); $("stagewrap").classList.remove("dim");
+    { // fetch this story's storyteller files now, so it also works offline later
+      const s = SN.stories[n], L = st.lang;
+      A.prefetch(["together", "open", "close", ...s.scenes.map((_, i) => `${s.id}:${i}`), `${s.id}:why`, `${s.id}:lesson`].map((k) => `${k}:${L}`));
+    }
     renderScene();
     restGuideInStory();
     if (!cur.again) {
@@ -382,10 +388,11 @@
   async function renderRecord() {
     const panel = $("pPanel"), parts = recParts();
     const have = await Promise.all(parts.map((p) => A.get(p.key).catch(() => null)));
+    const told = await Promise.all(parts.map((p) => A.hasVoice(p.key)));
     if (ui.tab !== "record") return;
     const done = have.filter((v) => v && v.blob).length;
     panel.innerHTML = `
-      <p>Record each part once, in your own voice. Tell it slowly, with pauses, and leave a moment of quiet after each question. He hears your recording every time he opens the story. Where there is no recording yet, the device's built-in voice is used if it has one for that language.</p>
+      <p>Every story already has a storyteller's voice. Wherever you record a part yourself, he hears you instead. Record each part once, in your own voice. Tell it slowly, with pauses, and leave a moment of quiet after each question.</p>
       <div class="frow">
         <label class="field">Story<select id="rStory">${storyOpts(ui.story)}</select></label>
         <label class="field">Language<select id="rLang">${Object.keys(LANGS).map((k) => `<option value="${k}" ${k === ui.lang ? "selected" : ""}>${LANGS[k]}</option>`).join("")}</select></label>
@@ -397,7 +404,7 @@
         return `<li data-i="${i}">
           <div><span class="lbl">${p.label}</span><p class="txt ${ui.lang === "ur" ? "ur" : ""}">${esc(p.text)}</p></div>
           <div class="acts"><button class="btn" type="button" data-act="rec" ${A.canRecord() ? "" : "disabled"}>${ok ? "Record again" : "Record"}</button><button class="btn" type="button" data-act="play" ${ok ? "" : "disabled"}>Listen</button><button class="btn warn" type="button" data-act="del" ${ok ? "" : "disabled"}>Delete</button></div>
-          <div class="stat ${ok ? "ok" : ""}">${ok ? `Recorded, ${Math.round(v.dur)} seconds` : "Not recorded yet"}</div></li>`;
+          <div class="stat ${ok ? "ok" : ""}">${ok ? `He hears you. Recorded, ${Math.round(v.dur)} seconds` : told[i] ? "Not recorded. He hears the storyteller" : A.canSpeak(ui.lang) ? "Not recorded. He hears the tablet's own voice" : "Not recorded. This part is silent"}</div></li>`;
       }).join("")}</ul>`;
     $("rStory").onchange = (e) => { ui.story = +e.target.value; renderRecord(); };
     $("rLang").onchange = (e) => { ui.lang = e.target.value; renderRecord(); };
@@ -448,9 +455,10 @@
     const sw = (name, on, label) => `<button type="button" class="switch" role="switch" aria-checked="${on}" data-sw="${name}" aria-label="${label}"></button>`;
     $("pPanel").innerHTML = `
       <div>
-        <div class="set"><div><b>Language he hears</b><span class="hint">Device voice on this tablet: English ${A.canSpeak("en") ? "available" : "not available"}, Urdu ${A.canSpeak("ur") ? "available" : "not available"}. Your recordings always work.</span></div>${seg("lang", st.lang, [["en", "English"], ["ur", "Urdu"]])}</div>
+        <div class="set"><div><b>Language he hears</b><span class="hint">The storyteller and your recordings work in both languages.</span></div>${seg("lang", st.lang, [["en", "English"], ["ur", "Urdu"]])}</div>
         <div class="set"><div><b>Stories open to him</b><span class="hint">Open one new story a week. The rest stay greyed out on his path.</span></div><div class="step"><button type="button" data-step="-1" aria-label="One fewer">−</button><span>${st.unlocked} of ${SN.stories.length}</span><button type="button" data-step="1" aria-label="One more">+</button></div></div>
         <div class="set"><div><b>Day or night look</b><span class="hint">Night is dimmer, for bedtime. Auto follows the tablet.</span></div>${seg("theme", st.theme, [["auto", "Auto"], ["light", "Day"], ["dark", "Night"]])}</div>
+        <div class="set"><div><b>Storyteller voice</b><span class="hint">A built-in narrator tells every part you have not recorded yourself. Switch off to hear only your own recordings.</span></div>${sw("storyteller", st.storyteller, "Storyteller voice")}</div>
         <div class="set"><div><b>Sounds</b><span class="hint">Soft tap sounds, wind by day and crickets at night. There is no music.</span></div>${sw("sound", st.sound, "Sounds")}</div>
         <div class="set"><div><b>Read-along words</b><span class="hint">For about age 6 and up. Shows the words and lights each one as it is said, and puts story names on his path.</span></div>${sw("readAlong", st.readAlong, "Read-along words")}</div>
         <div class="set"><div><b>Tell it back</b><span class="hint">For about age 6 and up. At the end of a story he can record himself telling it, and play it to you.</span></div>${sw("retell", st.retell, "Tell it back")}</div>
@@ -459,7 +467,7 @@
       </div>
       <p class="msg" id="sMsg" role="status"></p>`;
     P.querySelectorAll("[data-set]").forEach((b) => (b.onclick = () => { save(b.dataset.set, b.dataset.val); applyTheme(); if (b.dataset.set === "lang") ui.lang = st.lang; renderSettings(); }));
-    P.querySelectorAll("[data-sw]").forEach((b) => (b.onclick = () => { save(b.dataset.sw, !st[b.dataset.sw]); A.setSound(st.sound); renderSettings(); }));
+    P.querySelectorAll("[data-sw]").forEach((b) => (b.onclick = () => { save(b.dataset.sw, !st[b.dataset.sw]); A.setSound(st.sound); A.setStoryteller(st.storyteller); renderSettings(); }));
     P.querySelectorAll("[data-step]").forEach((b) => (b.onclick = () => { save("unlocked", Math.max(1, Math.min(SN.stories.length, st.unlocked + +b.dataset.step))); renderSettings(); }));
     const msg = (t, bad) => { const m = $("sMsg"); m.textContent = t; m.classList.toggle("bad", !!bad); };
     $("xExport").onclick = async () => {

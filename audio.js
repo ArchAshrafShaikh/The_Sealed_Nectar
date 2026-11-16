@@ -1,6 +1,7 @@
 /* Voice and sound.
    - Recordings (the parent's voice, and the child's retelling) are kept in this browser's IndexedDB.
-   - Narration plays a recording if there is one, otherwise the device voice, otherwise reports "none".
+   - Narration plays the parent's recording if there is one, otherwise the built-in storyteller file
+     (voice/<lang>/<part>.mp3, made by tools/make_voice.py), otherwise the device voice, otherwise reports "none".
    - Small sounds and the background (wind by day, crickets by night) are made in the browser. No music. */
 (function () {
   const SN = (window.SN = window.SN || {});
@@ -72,6 +73,22 @@
   const voiceFor = (lang) => voices.find((v) => v.lang && v.lang.toLowerCase().startsWith(lang)) || null;
   A.canSpeak = (lang) => !!voiceFor(lang);
 
+  /* ---------- the built-in storyteller ---------- */
+  let manifest = {}, storyteller = true;
+  const ready = fetch("voice/manifest.json").then((r) => (r.ok ? r.json() : {})).then((m) => { manifest = m || {}; }).catch(() => {});
+  A.setStoryteller = (on) => { storyteller = on; };
+  // "bird:0:en" -> the manifest entry for that part, if the storyteller has it.
+  function voiceEntry(key) {
+    const m = /^(.*):(en|ur)$/.exec(key || ""); if (!m || !storyteller) return null;
+    const e = (manifest[m[2]] || {})[m[1]];
+    return e ? { url: `voice/${m[2]}/${m[1].replace(/:/g, "_")}.mp3`, d: e.d, w: e.w } : null;
+  }
+  // Fetched whole (not streamed) so it also plays from the offline copy on iPad.
+  const voiceBlob = (url) => fetch(url).then((r) => { if (!r.ok) throw new Error(r.status); return r.blob(); });
+  A.hasVoice = async (key) => { await ready; return !!voiceEntry(key); };
+  // Fetch a story's files ahead of time, so they are saved for offline use.
+  A.prefetch = async (keys) => { await ready; for (const k of keys) { const e = voiceEntry(k); if (e) { try { await voiceBlob(e.url); } catch (err) {} } } };
+
   /* ---------- narration ---------- */
   let cur = null; // what is playing now
   const words = (text) => text.split(/\s+/).filter(Boolean);
@@ -85,7 +102,7 @@
 
   A.stop = function () {
     if (!cur) return;
-    const c = cur; cur = null;
+    const c = cur; cur = null; duck(false);
     if (c.el) { c.el.pause(); URL.revokeObjectURL(c.el.src); }
     if (c.tts) { try { synth.cancel(); } catch (e) {} }
   };
@@ -94,12 +111,12 @@
   A.playing = () => !!cur && !cur.paused;
   A.active = () => !!cur;
 
-  /* Tell `text`. key = recording to look for. onword(i) as each word is reached. onend(how): "rec" | "tts" | "none". */
+  /* Tell `text`. key = part to look for. onword(i) as each word is reached. onend(how): "rec" | "voice" | "tts" | "none". */
   A.say = async function ({ key, text, lang, onword, onend, onstart, ttsOnly }) {
     A.stop();
     const ws = words(text || "");
     const mine = (cur = { paused: false });
-    const done = (how) => { if (cur === mine) { cur = null; onend && onend(how); } };
+    const done = (how) => { if (cur === mine) { cur = null; duck(false); onend && onend(how); } };
     let r = null;
     if (key && !ttsOnly) { try { r = await A.get(key); } catch (e) {} }
     if (cur !== mine) return;
@@ -109,14 +126,32 @@
       el.ontimeupdate = () => onword && onword(wordAt(ws, Math.min(1, el.currentTime / (r.dur || el.duration || 1))));
       el.onended = () => { URL.revokeObjectURL(el.src); done("rec"); };
       el.onerror = () => done("none");
-      onstart && onstart("rec", r.dur);
+      onstart && onstart("rec", r.dur); duck(true);
       el.play().catch(() => done("none"));
       return "rec";
+    }
+    // The storyteller's file, with the exact time of each word.
+    await ready;
+    const ve = !ttsOnly && voiceEntry(key);
+    if (ve) {
+      let blob = null;
+      try { blob = await voiceBlob(ve.url); } catch (e) {}
+      if (cur !== mine) return;
+      if (blob) {
+        const el = new Audio(URL.createObjectURL(blob));
+        mine.el = el;
+        el.ontimeupdate = () => { if (!onword) return; let i = -1; while (i + 1 < ve.w.length && ve.w[i + 1] <= el.currentTime + 0.05) i++; if (i >= 0) onword(i); };
+        el.onended = () => { URL.revokeObjectURL(el.src); done("voice"); };
+        el.onerror = () => done("none");
+        onstart && onstart("voice", ve.d); duck(true);
+        el.play().catch(() => done("none"));
+        return "voice";
+      }
     }
     const v = voiceFor(lang);
     if (synth && v) {
       mine.tts = true;
-      onstart && onstart("tts");
+      onstart && onstart("tts"); duck(true);
       // Speak sentence by sentence: long single utterances get cut off in some browsers.
       const parts = text.match(/[^.!?۔]+[.!?۔]*\s*/g) || [text];
       let base = 0, left = parts.length;
@@ -135,7 +170,9 @@
   };
 
   /* ---------- small sounds ---------- */
-  let ctx = null, amb = null, soundOn = true;
+  let ctx = null, amb = null, soundOn = true, ducked = false;
+  // The background drops while the voice speaks, so the words stay clear.
+  function duck(on) { ducked = on; if (amb && ctx) amb.g.gain.linearRampToValueAtTime(amb.level * (on ? 0.45 : 1), ctx.currentTime + 0.6); }
   A.setSound = (on) => { soundOn = on; if (!on) A.ambient(false); };
   function ac() {
     if (!ctx) { const C = window.AudioContext || window.webkitAudioContext; if (!C) return null; ctx = new C(); }
@@ -185,7 +222,8 @@
     if (!on || !soundOn) return;
     const c = ac(); if (!c) return;
     const g = c.createGain(); g.gain.value = 0; g.connect(c.destination);
-    g.gain.linearRampToValueAtTime(night ? 0.018 : 0.03, c.currentTime + 2);
+    const level = night ? 0.018 : 0.03;
+    g.gain.linearRampToValueAtTime(level * (ducked ? 0.45 : 1), c.currentTime + 2);
     const nodes = [];
     if (night) {
       const osc = c.createOscillator(), trem = c.createOscillator(), tg = c.createGain(), og = c.createGain();
@@ -197,7 +235,7 @@
       lfo.frequency.value = 0.12; lg.gain.value = 180; lfo.connect(lg).connect(f.frequency);
       src.connect(f).connect(g); src.start(); lfo.start(); nodes.push(src, lfo);
     }
-    amb = { stop() { g.gain.linearRampToValueAtTime(0, c.currentTime + 0.6); setTimeout(() => nodes.forEach((n) => { try { n.stop(); } catch (e) {} }), 700); } };
+    amb = { g, level, stop() { g.gain.linearRampToValueAtTime(0, c.currentTime + 0.6); setTimeout(() => nodes.forEach((n) => { try { n.stop(); } catch (e) {} }), 700); } };
   };
 
   /* ---------- back up and restore recordings ---------- */
