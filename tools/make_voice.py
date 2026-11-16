@@ -16,7 +16,7 @@ The voices are Microsoft's neural voices, reached through the free edge-tts tool
 import argparse, asyncio, json, os, re, subprocess, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-VOICES = {"en": "en-US-AvaNeural", "ur": "ur-PK-UzmaNeural"}
+VOICES = {"en": "en-GB-SoniaNeural", "ur": "ur-PK-UzmaNeural"}
 RATE = {"en": "-14%", "ur": "-10%"}   # slower than normal speech
 SR = 24000                            # samples per second
 LEAD, GAP, BEFORE_QUESTION, TAIL = 0.30, 0.55, 1.00, 0.40   # seconds of quiet

@@ -23,7 +23,7 @@ To try it on a computer first, run `python3 -m http.server` in this folder and o
 
 Press and hold the small round button in the top right corner for three seconds.
 
-**Record your voice.** Pick a story and a language, and record each picture's text once, then the question to think about and the lesson. There is also one invitation, one opening (Bismillah) and one closing (salawat) per language, used for every story. He hears your recording every time. Where a part has no recording, the tablet's built-in voice is used if it has one for that language; if it has none, he sees a crossed-out microphone and the story waits for him to tap the arrow.
+**Record your voice.** Pick a story and a language, and record each picture's text once, then the question to think about and the lesson. There is also one invitation, one opening (Bismillah) and one closing (salawat) per language, used for every story. He hears your recording every time. Where a part has no recording, the storyteller tells it.
 
 **Read aloud.** The full text for the nights you tell it yourself, with the closing lesson, two questions to ask him, and where to check the story. Telling it yourself, in your own words, is better than any recording.
 
@@ -34,7 +34,8 @@ Press and hold the small round button in the top right corner for three seconds.
 | Language he hears | English or Urdu |
 | Stories open to him | Starts at 1. Open one more each week; the rest stay grey on his path |
 | Day or night look | Night is dimmer, for bedtime |
-| Sounds | Tap sounds and background wind or crickets |
+| Storyteller voice | The built-in narrator for parts you have not recorded |
+| Sounds | Tap sounds and background wind or crickets, kept quiet under the voice |
 | Read-along words | For about age 6 and up: shows the words and lights each one as it is said |
 | Tell it back | For about age 6 and up: he records himself telling the story and plays it to you |
 | Back up your recordings | Saves all recordings to one file, and restores them |
@@ -52,6 +53,16 @@ Recordings live only in that browser on that tablet. Clearing the browser's data
 6. **From the second hearing on,** the other things in each picture can be touched too, once the telling has finished.
 
 These choices follow the research in `reports/Teaching seerah to young children.md`.
+
+## The storyteller's voice
+
+Every story is narrated by a built-in storyteller (a warm woman's voice in English and in Urdu), so it speaks from the first tap. Wherever you record a part yourself, he hears your recording instead. The "Storyteller voice" switch in Settings turns the narrator off.
+
+- The audio is in `voice/en/` and `voice/ur/`, one file per part, with `voice/manifest.json` holding each part's length and word timings.
+- It is made by `tools/make_voice.py` from the story text, using Microsoft's neural voices through the free `edge-tts` tool.
+- **If you change a story's wording, make its audio again:** `pip install edge-tts imageio-ffmpeg`, then `python3 tools/make_voice.py --only <story id>`, and raise `VERSION` in `sw.js`.
+- If the English voice says a name wrongly, add a spelling for it to the `SAY_EN` list in that script and make the audio again.
+- Opening a story while online saves its audio on the tablet, so it plays offline afterwards.
 
 ## Before you record
 
@@ -82,7 +93,8 @@ These choices follow the research in `reports/Teaching seerah to young children.
 | `index.html` | The page |
 | `styles.css` | Layout, colours for day, dusk, dawn and night, and every tap animation |
 | `app.js` | Story path, story player and the grown-ups' area |
-| `audio.js` | Recording, playback, device-voice fallback, sounds, backup |
+| `audio.js` | Recording, playback of recordings and the storyteller, device-voice fallback, sounds, backup |
+| `tools/make_voice.py`, `voice/` | The script that makes the storyteller's audio, and the audio |
 | `stories/stories.js` | All story text |
 | `scenes/scenes.js` | All drawings |
 | `sw.js`, `manifest.webmanifest`, `icons/` | Home-screen install and offline use |
