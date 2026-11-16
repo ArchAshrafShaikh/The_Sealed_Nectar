@@ -38,12 +38,12 @@
     guide.classList.toggle("flip", !!flip);
   }
   function guideDo(cls, ms) { guide.classList.remove("nod", "shake", "point"); void guide.offsetWidth; guide.classList.add(cls); setTimeout(() => guide.classList.remove(cls), ms); }
-  function guidePoint(el) {
-    const r = el.getBoundingClientRect(), w = guide.offsetWidth || 80;
-    const left = r.left - w * 0.9 > 4;
-    guideTo(left ? r.left - w * 0.9 : r.right - w * 0.1, r.bottom - w, !left);
-    guideDo("point", 1600);
-    setTimeout(() => guideTo(guideRest.x, guideRest.y), 2600);
+  // Drift to something worth touching. stay = wait there until he touches it.
+  function guidePoint(el, stay) {
+    const h = el.querySelector(".hit") || el, r = h.getBoundingClientRect(), w = guide.offsetWidth || 48;
+    guideTo(r.left + r.width / 2 - w / 2, r.top + r.height * 0.3 - w / 2);
+    guide.classList.toggle("calling", !!stay);
+    if (!stay) { guideDo("point", 1600); setTimeout(() => guideTo(guideRest.x, guideRest.y), 2600); }
   }
 
   /* ---------- screens ---------- */
@@ -85,8 +85,8 @@
     for (let i = 1; i < pts.length; i++) { const a = pts[i - 1], b = pts[i]; d += ` Q${a[0] + (b[0] - a[0]) / 2} ${a[1] + (i % 2 ? -1 : 1) * 26} ${b[0]} ${b[1]}`; }
     $("trailpath").setAttribute("d", d);
     const nx = nextIndex(), at = pts[nx >= 0 ? nx : 0], gw = guide.offsetWidth || 80;
-    guideRest = { x: at[0] - size / 2 - gw * 0.75, y: at[1] + size / 2 - gw };
-    guideTo(guideRest.x, guideRest.y);
+    guideRest = { x: at[0] - size / 2 - gw * 0.2, y: at[1] - size / 2 - gw * 0.2 };
+    guide.classList.remove("calling"); guideTo(guideRest.x, guideRest.y);
   }
   tiles.addEventListener("click", (e) => {
     const t = e.target.closest(".tile"); if (!t) return;
@@ -103,18 +103,18 @@
   /* ---------- the story player ---------- */
   const stage = $("stage"), wordsEl = $("words");
   const ONESHOT = { pulse: 950, fly: 3450, sway: 1650, flutter: 1450, drift: 3050, walk: 2050, plod: 2750, trot: 2050, hop: 1050, twinkle: 1500, tip: 1850 };
+  const TURN = { sit: 1900, fly: 2600, pulse: 1200, shine: 3200 }; // how long the answer plays before the page turns
   const PLAY = "M7 4v16l13-8z", PAUSE = "M6 4h4v16H6zM14 4h4v16h-4z";
-  const LINGER = 7000; // how long a picture stays after the voice finishes, so he can play with it
   let cur = null; // { n, i, how, t1, t2 }
 
   const story = () => SN.stories[cur.n];
   const setIcon = (playing) => $("playicon").setAttribute("d", playing ? PAUSE : PLAY);
-  function clearTimers() { if (cur) { clearTimeout(cur.t1); clearTimeout(cur.t2); } }
+  function clearTimers() { if (cur) { clearTimeout(cur.t1); clearInterval(cur.t2); } }
   function halt() { clearTimers(); A.stop(); setIcon(false); if (typeof stopFilm === "function") stopFilm(); }
   function restGuideInStory() {
     const r = $("stagewrap").getBoundingClientRect(), w = guide.offsetWidth || 80;
-    guideRest = st.readAlong ? { x: r.left + 10, y: r.top + 10 } : { x: r.left + 10, y: r.bottom - w - 6 };
-    guideTo(guideRest.x, guideRest.y);
+    guideRest = { x: r.left + r.width * 0.5 - w / 2, y: r.top + r.height * 0.12 };
+    guide.classList.remove("calling"); guideTo(guideRest.x, guideRest.y);
   }
 
   function startStory(n) {
@@ -132,7 +132,8 @@
     const sc = SN.art[story().id][cur.i]();
     stage.innerHTML = sc.svg;
     stage.style.animation = "none"; void stage.offsetWidth; stage.style.animation = "";
-    $("norec").hidden = true;
+    $("norec").hidden = true; $("bNext").classList.remove("ask"); cur.leaving = false;
+    restGuideInStory();
     $("dots").innerHTML = story().scenes.map((_, k) => `<i class="${k === cur.i ? "on" : ""}"></i>`).join("");
     const night = sc.mood === "night" || (sc.mood === "" && darkNow());
     if (cur.night !== night) { cur.night = night; A.ambient(true, night); }
@@ -172,7 +173,7 @@
       const now = performance.now(), dt = (now - tl.last) / 1000; tl.last = now;
       if (tl.paused || document.hidden) return;
       tl.el += dt;
-      for (const c of tl.cues) if (!c.fired && tl.el >= c.at * tl.D) { c.fired = true; if (!c.t.classList.contains("done")) act(c.t, false); }
+      for (const c of tl.cues) if (!c.fired && tl.el >= c.at * tl.D) { c.fired = true; if (!c.t.classList.contains("done") && !c.t.dataset.next) act(c.t, false); }
       if (tl.el > tl.D + 1) stopFilm();
     }, 100);
   }
@@ -189,20 +190,20 @@
       onend: (how) => {
         cur.how = how; setIcon(false); markWord(999);
         $("norec").hidden = how !== "none";
-        cur.t1 = setTimeout(hint, 3000);
-        if (how !== "none") cur.t2 = setTimeout(advance, LINGER);
+        // Without a voice, give him time to look before the question is put.
+        cur.t1 = setTimeout(ask, how === "none" ? Math.max(3000, ((tl ? tl.D - tl.el : 0) + 0.5) * 1000) : 400);
       }
     });
   }
-  // If he hasn't found something to tap, the bird shows him.
-  function hint() {
-    const t = stage.querySelector(".tap:not(.done)");
-    if (!t || A.active()) return;
-    guidePoint(t); A.sfx("chirp");
-    if (cur.how === "tts" || (cur.how === "none" && A.canSpeak(st.lang))) {
-      clearTimeout(cur.t2);
-      A.say({ ttsOnly: true, text: SN.findPrompt(t.dataset.name, st.lang), lang: st.lang, onend: () => { if (cur && cur.how !== "none") cur.t2 = setTimeout(advance, LINGER); } });
-    }
+  // The telling has ended on a question. Show what he can touch to find out, and wait for him.
+  function ask() {
+    if (!cur) return;
+    const svg = stage.querySelector("svg"); if (svg) svg.classList.add("asked");
+    const portal = stage.querySelector(".portal");
+    if (portal) { guidePoint(portal, true); A.sfx("twinkle"); }
+    else $("bNext").classList.add("ask");
+    // If he is still wondering after a while, call him again.
+    cur.t2 = setInterval(() => { if (!A.active()) { A.sfx("twinkle"); guideDo("point", 1600); } }, 9000);
   }
   function advance() {
     if (cur.i < story().scenes.length - 1) { cur.i++; renderScene(); tell(); }
@@ -216,7 +217,7 @@
     A.say({ key: "close:" + st.lang, text: SN.ritual.close[st.lang], lang: st.lang, onend: () => {} });
     A.ambient(false); cur.night = null;
     $("end").hidden = false; wordsEl.hidden = true; $("story").classList.add("ended");
-    A.sfx("done"); guideDo("nod", 600);
+    A.sfx("done"); guide.classList.remove("calling"); guideTo(-200, -200);
     $("eMic").hidden = !(st.retell && A.canRecord());
     $("eHear").hidden = true;
     if (st.retell) A.get("retell:" + s.id).then((v) => { if (cur) $("eHear").hidden = !(v && v.blob); });
@@ -238,15 +239,17 @@
     else t.classList.add("go");
     A.sfx(t.dataset.snd);
     if (byChild) { t.classList.add("done"); guideDo("nod", 500); }
+    // The thing that answers the question: it does its action, then the page turns.
+    if (byChild && t.dataset.next && cur && !cur.leaving) {
+      cur.leaving = true; t.classList.add("go"); guide.classList.remove("calling");
+      clearTimers(); A.stop(); setIcon(false);
+      cur.t1 = setTimeout(advance, TURN[fx] || 1400);
+    }
   }
   stage.addEventListener("pointerdown", (e) => {
     const t = e.target.closest(".tap"); if (!t) return;
     e.preventDefault();
     act(t, true);
-    if (cur) { // he is playing: give him more time before moving on
-      clearTimeout(cur.t1);
-      if (cur.t2 && !A.active() && cur.how !== "none") { clearTimeout(cur.t2); cur.t2 = setTimeout(advance, LINGER); }
-    }
   });
   $("stagewrap").addEventListener("contextmenu", (e) => e.preventDefault());
 

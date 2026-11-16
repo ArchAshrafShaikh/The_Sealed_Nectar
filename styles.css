@@ -6,11 +6,11 @@
 :root {
   /* interface */
   --bg: #dcefee; --card: #fffaf0; --text: #1c2947; --soft: #51607f; --line: #c4d9d8; --accent: #f0a22e; --on-accent: #1c2947; --danger: #b8473d;
-  /* scene palette: day */
-  --sky1: #7cc8d4; --sky2: #f7e6bd; --sand: #efcf94; --sand2: #dcb372; --hill: #c9925f; --hill2: #ae7850;
-  --grass: #9cc27a; --grass2: #7fae6a; --leaf: #2f7d5b; --leaf2: #46a078; --trunk: #8a5a2b; --wall: #e8cfa0; --wall2: #cfae78;
-  --tent: #f3e3c2; --tent2: #d9bf94; --orb: #ffd24a; --cloud: #ffffff; --win: #6b4a2c; --ink: #2a3350; --crater: transparent;
-  --starA: 0; --cloudA: .9;
+  /* scene palette: day (a low golden sun) */
+  --sky1: #24507f; --sky2: #e79a5b; --sky3: #ffdf9e; --h1: #e3a57a; --h2: #b96a55; --h3: #84434a; --sand: #d9925f; --sand2: #a9654c;
+  --sil: #3a2233; --sil2: #5a3442; --sil3: #74485a; --pale: #f0dcc2; --grass: #8f9a5c; --grass2: #6c7a50; --leaf: #2b463c; --leaf2: #3d624e; --trunk: #3a2233;
+  --wall: #93594b; --wall2: #6f3f3c; --tent: #e8cfa8; --tent2: #c9a67c; --orb: #fff1c2; --cloud: #ffd9a8; --win: #2a1626; --ink: #2a1a2e; --crater: transparent;
+  --starA: 0; --cloudA: .6;
   /* type */
   --display: "Baloo 2", "Trebuchet MS", system-ui, sans-serif;
   --body: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -25,30 +25,30 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #0c1430; --card: #1a2444; --text: #f4ecd9; --soft: #aab3cf; --line: #2c3763; --accent: #ffc857; --danger: #ff9a8f;
-    --sky1: #0d1638; --sky2: #2b2f68; --sand: #3f4270; --sand2: #343762; --hill: #272c5a; --hill2: #1d2149;
-    --grass: #2f4a5a; --grass2: #27405a; --leaf: #2a6a5a; --leaf2: #348070; --trunk: #4a3a3a; --wall: #4a4d7c; --wall2: #3c3f6c;
-    --tent: #5a5d8c; --tent2: #484b7a; --orb: #f4f1de; --cloud: #5a5f95; --win: #23264c; --ink: #c9cfe8; --crater: #d9d6c3;
-    --starA: 1; --cloudA: .25; color-scheme: dark;
+    --sky1: #050a22; --sky2: #16235a; --sky3: #3a4a92; --h1: #1d2a63; --h2: #141d4a; --h3: #0d1436; --sand: #1b2757; --sand2: #10183f;
+    --sil: #060a1e; --sil2: #111a3c; --sil3: #1b2650; --pale: #aeb6d6; --grass: #16304a; --grass2: #10263e; --leaf: #0f2a35; --leaf2: #17384a; --trunk: #060a1e;
+    --wall: #1a2350; --wall2: #101838; --tent: #2a3468; --tent2: #1d2654; --orb: #f4f1de; --cloud: #2a3670; --win: #0a0f2a; --ink: #aab3e0; --crater: #d9d6c3;
+    --starA: 1; --cloudA: .5; color-scheme: dark;
   }
 }
 :root[data-theme="dark"], .scene.night {
-  --sky1: #0d1638; --sky2: #2b2f68; --sand: #3f4270; --sand2: #343762; --hill: #272c5a; --hill2: #1d2149;
-  --grass: #2f4a5a; --grass2: #27405a; --leaf: #2a6a5a; --leaf2: #348070; --trunk: #4a3a3a; --wall: #4a4d7c; --wall2: #3c3f6c;
-  --tent: #5a5d8c; --tent2: #484b7a; --orb: #f4f1de; --cloud: #5a5f95; --win: #23264c; --ink: #c9cfe8; --crater: #d9d6c3;
-  --starA: 1; --cloudA: .25;
+  --sky1: #050a22; --sky2: #16235a; --sky3: #3a4a92; --h1: #1d2a63; --h2: #141d4a; --h3: #0d1436; --sand: #1b2757; --sand2: #10183f;
+  --sil: #060a1e; --sil2: #111a3c; --sil3: #1b2650; --pale: #aeb6d6; --grass: #16304a; --grass2: #10263e; --leaf: #0f2a35; --leaf2: #17384a; --trunk: #060a1e;
+  --wall: #1a2350; --wall2: #101838; --tent: #2a3468; --tent2: #1d2654; --orb: #f4f1de; --cloud: #2a3670; --win: #0a0f2a; --ink: #aab3e0; --crater: #d9d6c3;
+  --starA: 1; --cloudA: .5;
 }
 :root[data-theme="dark"] { --bg: #0c1430; --card: #1a2444; --text: #f4ecd9; --soft: #aab3cf; --line: #2c3763; --accent: #ffc857; --danger: #ff9a8f; color-scheme: dark; }
 .scene.dusk {
-  --sky1: #5b4b8f; --sky2: #f7a96b; --sand: #dba476; --sand2: #c38c63; --hill: #91607a; --hill2: #74506e;
-  --grass: #7f9a6a; --grass2: #6a8562; --leaf: #2c6a52; --leaf2: #3a8062; --trunk: #6d4a2e; --wall: #dcb48c; --wall2: #c0966e;
-  --tent: #efd2b0; --tent2: #d3ae88; --orb: #ffb35a; --cloud: #f9cfa6; --win: #5a3c2a; --ink: #2a2440; --crater: transparent;
-  --starA: .35; --cloudA: .7;
+  --sky1: #2a1f5c; --sky2: #c2507a; --sky3: #ffb070; --h1: #b0607a; --h2: #7a3f66; --h3: #4d2a52; --sand: #8a4a5a; --sand2: #5e3049;
+  --sil: #24122e; --sil2: #3a1f40; --sil3: #52305a; --pale: #e0bfb0; --grass: #5f5f5a; --grass2: #484d52; --leaf: #23323a; --leaf2: #2f4648; --trunk: #24122e;
+  --wall: #6a3650; --wall2: #4d2a52; --tent: #d9a890; --tent2: #b08070; --orb: #ffd08a; --cloud: #f08a7a; --win: #1c0e26; --ink: #1c0e26; --crater: transparent;
+  --starA: .45; --cloudA: .65;
 }
 .scene.dawn {
-  --sky1: #7ea9db; --sky2: #ffd3a3; --sand: #efca96; --sand2: #dcae76; --hill: #c48f72; --hill2: #a9765f;
-  --grass: #a4c486; --grass2: #88b074; --leaf: #2f7d5b; --leaf2: #46a078; --trunk: #8a5a2b; --wall: #ecd2a6; --wall2: #d2b07e;
-  --tent: #f5e6c8; --tent2: #dcc29a; --orb: #ffe07a; --cloud: #fff1e0; --win: #6b4a2c; --ink: #2a3350; --crater: transparent;
-  --starA: .2; --cloudA: .8;
+  --sky1: #3a5a9a; --sky2: #f0a0a0; --sky3: #ffe6b8; --h1: #d9a0a0; --h2: #a06a80; --h3: #6a4868; --sand: #c98f7a; --sand2: #9a6462;
+  --sil: #33203c; --sil2: #4d3050; --sil3: #654464; --pale: #f0dccc; --grass: #8a9a6a; --grass2: #6a8060; --leaf: #2f4a44; --leaf2: #416654; --trunk: #33203c;
+  --wall: #8f5a60; --wall2: #6a4868; --tent: #f0d8b8; --tent2: #cfae8c; --orb: #fff3c8; --cloud: #ffd0c0; --win: #2a1830; --ink: #2a1830; --crater: transparent;
+  --starA: .25; --cloudA: .6;
 }
 
 /* ---------- base ---------- */
@@ -324,6 +324,94 @@ select, input[type="file"] { font: inherit; color: inherit; background: var(--ca
   #stagewrap.haswords #words { top: calc(100% + 14px); bottom: auto; left: 0; right: 0; max-height: 8.8em; font-size: 1rem; }
 }
 
+/* ---------- cinema look: full-screen picture, glass controls, depth ---------- */
+#kid { background: #070b1f; }
+#story { padding: 0; display: block; }
+#stagewrap { position: absolute; inset: 0; width: auto; aspect-ratio: auto; border: 0; border-radius: 0; box-shadow: none; }
+#stagewrap::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(4, 6, 20, .5) 100%); }
+#stagewrap::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: .1; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E"); }
+#ctl { position: static; display: contents; }
+.big { background: rgba(10, 14, 40, .42); border: 2px solid rgba(255, 255, 255, .38); box-shadow: 0 8px 24px rgba(0, 0, 0, .28); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.big svg { fill: #fff; }
+.big.play { width: var(--btn); height: var(--btn); background: rgba(10, 14, 40, .42); box-shadow: 0 8px 24px rgba(0, 0, 0, .28); }
+.big.play svg { fill: #fff; }
+.big:active, .big.down { transform: scale(.92); box-shadow: none; }
+#story .big { position: absolute; z-index: 3; }
+#bHome { left: max(18px, env(safe-area-inset-left)); top: max(18px, env(safe-area-inset-top)); }
+#bPlay { left: calc(max(18px, env(safe-area-inset-left)) + var(--btn) + 14px); top: max(18px, env(safe-area-inset-top)); }
+#bBack { left: max(18px, env(safe-area-inset-left)); bottom: max(22px, env(safe-area-inset-bottom)); }
+#bNext { right: max(18px, env(safe-area-inset-right)); bottom: max(22px, env(safe-area-inset-bottom)); }
+#bNext.ask { background: #f0a22e; border-color: #ffe9a8; animation: askpulse 1.6s ease-in-out infinite; }
+#bNext.ask svg { fill: #1c2947; }
+@keyframes askpulse { 50% { transform: scale(1.12); box-shadow: 0 0 0 16px rgba(255, 215, 106, .25); } }
+#dots { position: absolute; z-index: 3; left: 50%; transform: translateX(-50%); bottom: max(14px, env(safe-area-inset-bottom)); }
+#dots i { background: rgba(255, 255, 255, .35); width: 9px; height: 9px; }
+#dots i.on { background: #ffd76a; }
+#words { left: calc(var(--btn) + 44px); right: calc(var(--btn) + 44px); bottom: 40px; z-index: 2; background: rgba(8, 12, 34, .62); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+#words span { color: rgba(255, 255, 255, .6); } #words span.said { color: #fff; } #words span.now { background: #ffd76a; color: #1c2947; }
+#story.ended #ctl .big, #story.ended #dots { visibility: hidden; }
+#end .big { position: static; }
+#end .big.play { background: #f0a22e; border-color: #ffe9a8; } #end .big.play svg { fill: #1c2947; }
+#gate { opacity: .4; }
+#norec { left: auto; right: 76px; top: 12px; transform: none; width: 44px; height: 44px; z-index: 3; opacity: .85; }
+#norec svg { width: 24px; height: 24px; }
+
+/* story path */
+.disc { background: rgba(10, 14, 40, .5); border: 3px solid rgba(255, 255, 255, .35); box-shadow: 0 10px 26px rgba(0, 0, 0, .35); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.tile.next .disc { border-color: #ffd76a; box-shadow: 0 0 0 8px rgba(255, 215, 106, .22), 0 10px 26px rgba(0, 0, 0, .35); }
+.tile.heard .disc { border-color: #ffd76a; }
+.tile.locked .disc { opacity: .4; }
+#trailpath { stroke: rgba(255, 233, 168, .55); stroke-width: 5; stroke-dasharray: 1 18; }
+.tile .ttl { background: rgba(8, 12, 34, .62); color: #fff; }
+
+/* his guide: a small light */
+#guide { width: 48px; height: 48px; }
+.spark { display: block; width: 100%; height: 100%; border-radius: 50%; background: radial-gradient(circle, #fff 0 10%, #ffe9a8 22%, rgba(255, 215, 106, .4) 46%, transparent 70%); animation: sparkidle 2.4s ease-in-out infinite; }
+@keyframes sparkidle { 50% { transform: scale(.8); opacity: .75; } }
+#guide.calling .spark { animation: sparkcall 1.1s ease-in-out infinite; }
+@keyframes sparkcall { 50% { transform: scale(2.2); opacity: .9; } }
+#guide.nod .spark, #guide.point .spark { animation: sparkcall .5s ease-in-out 3; }
+#guide.shake .spark { animation: shake .45s; }
+
+/* depth: layers move at different speeds as the camera travels */
+.scene .cam { transform-origin: 50% 70%; }
+.scene.run .cam, .scene.run .cam1 { animation: push var(--dur, 20s) ease-in-out both; }
+.scene.run .cam2, .scene.run .cam3 { animation: push var(--dur, 20s) ease-in-out both reverse; }
+@keyframes push { from { transform: scale(1); } to { transform: scale(1.08); } }
+.scene .cam0, .scene .cam2 { --dx: 1; } .scene .cam1, .scene .cam3 { --dx: -1; }
+.scene.run .L0 { animation: par0 var(--dur, 20s) ease-in-out both; }
+.scene.run .L1 { animation: par1 var(--dur, 20s) ease-in-out both; }
+.scene.run .L2 { animation: par2 var(--dur, 20s) ease-in-out both; }
+.scene.run .L3 { animation: par3 var(--dur, 20s) ease-in-out both; }
+@keyframes par0 { from { transform: translateX(calc(var(--dx) * -4px)); } to { transform: translateX(calc(var(--dx) * 4px)); } }
+@keyframes par1 { from { transform: translateX(calc(var(--dx) * -10px)); } to { transform: translateX(calc(var(--dx) * 10px)); } }
+@keyframes par2 { from { transform: translateX(calc(var(--dx) * -20px)); } to { transform: translateX(calc(var(--dx) * 20px)); } }
+@keyframes par3 { from { transform: translateX(calc(var(--dx) * -36px)); } to { transform: translateX(calc(var(--dx) * 36px)); } }
+.paused .scene .L0, .paused .scene .L1, .paused .scene .L2, .paused .scene .L3 { animation-play-state: paused; }
+.scene .mote { fill: var(--orb); opacity: 0; animation: mote 12s linear infinite; }
+@keyframes mote { 10% { opacity: .5; } 90% { opacity: .35; } to { transform: translate(60px, -140px); opacity: 0; } }
+.scene .puff { transform-box: fill-box; transform-origin: 50% 100%; animation: puff 3.4s ease-in-out infinite alternate; }
+.scene .puff:nth-child(2n) { animation-delay: 1.1s; }
+@keyframes puff { to { transform: scale(1.25) translateY(-8px); opacity: .6; } }
+/* calmer arrivals and invitations */
+.scene .in { animation: enter 1.4s ease-out backwards; }
+@keyframes enter { from { transform: translateY(18px); opacity: 0; } }
+@keyframes wig { 0%, 86%, 100% { transform: none; } 93% { transform: scale(1.05); } }
+/* the thing that answers the question */
+.scene .portal { pointer-events: none; }
+.scene .portal .wig { animation: none !important; }
+.scene .veil { opacity: 0; transition: opacity 1.6s; }
+.scene.asked .portal { pointer-events: auto; opacity: 1; }
+.scene.asked .portal:not(.go) .wig { animation: calling 1.4s ease-in-out infinite !important; }
+@keyframes calling { 50% { transform: scale(1.07); filter: drop-shadow(0 0 14px #ffe9a8); } }
+.tap[data-fx="shine"].go .callig { opacity: 1; }
+
+/* upright phones: keep the whole picture in view */
+@media (max-aspect-ratio: 1/1) {
+  #stagewrap, #stagewrap.haswords { inset: auto 0; top: 50%; transform: translateY(-58%); aspect-ratio: 8 / 5; margin: 0; overflow: hidden; }
+  #stagewrap.haswords #words { top: auto; bottom: 8px; left: 8px; right: 8px; max-height: 60%; font-size: .9rem; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .scene.run .cam, .scene .in, .scene .a-palm, .scene .a-flag, .scene .bod, .scene .tap:not(.done) .wig, .scene .tw, .scene .cl1, .scene .cl2, #guide .gb, .tile.next .disc, .endrays, #stage, .tap[data-fx="fly"] .fx { animation: none; }
+  .scene.run .cam, .scene.run .L0, .scene.run .L1, .scene.run .L2, .scene.run .L3, .scene .mote, .scene .puff, .spark, .scene .in, .scene .a-palm, .scene .a-flag, .scene .bod, .scene .tap:not(.done) .wig, .scene .tw, .scene .cl1, .scene .cl2, #guide .gb, .tile.next .disc, .endrays, #stage, .tap[data-fx="fly"] .fx { animation: none; }
 }

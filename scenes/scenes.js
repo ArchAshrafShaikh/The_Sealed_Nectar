@@ -15,17 +15,18 @@
 
   /* ---------- prop drawings ---------- */
   const A = {};
-  A.kaaba = `${glow(0, -60, 150)}<rect x="-58" y="-124" width="116" height="124" fill="${INK}" stroke="${GOLD}" stroke-width="2"/><rect x="-58" y="-100" width="116" height="14" fill="${GOLD}"/><path d="M-58 -78h116" stroke="${GOLD}" stroke-width="1.5" stroke-dasharray="5 6"/><rect x="14" y="-56" width="26" height="56" rx="2" fill="${GOLD}"/><rect x="19" y="-50" width="16" height="50" fill="#b98a1c"/>`;
-  A.palm = `<g class="a-palm"><path d="M-4 0 Q4 -50 -3 -96 L7 -96 Q13 -50 7 0Z" fill="var(--trunk)"/><g fill="var(--leaf)"><path d="M2 -96 Q-40 -120 -68 -92 Q-36 -104 2 -90Z"/><path d="M2 -96 Q44 -120 72 -92 Q40 -104 2 -90Z"/><path d="M2 -96 Q-28 -140 -58 -130 Q-28 -124 2 -90Z"/><path d="M2 -96 Q32 -140 62 -130 Q32 -124 2 -90Z"/><path d="M2 -96 Q-4 -144 14 -150 Q8 -124 4 -90Z" fill="var(--leaf2)"/></g><circle cx="-3" cy="-90" r="5" fill="#8a5a2b"/><circle cx="8" cy="-88" r="5" fill="#8a5a2b"/></g>`;
+  A.kaaba = `${glow(0, -60, 150)}<rect x="-58" y="-124" width="116" height="124" fill="${INK}" stroke="${GOLD}" stroke-width="2"/><rect x="-58" y="-100" width="116" height="14" fill="${GOLD}"/><path d="M-58 -78h116" stroke="${GOLD}" stroke-width="1.5" stroke-dasharray="5 6"/><rect x="14" y="-56" width="26" height="56" rx="2" fill="${GOLD}"/><rect x="19" y="-50" width="16" height="50" fill="#9a7418"/>`;
+  A.palm = `<g class="a-palm"><path d="M-4 0 Q4 -50 -3 -96 L7 -96 Q13 -50 7 0Z" fill="var(--trunk)"/><g fill="var(--leaf)"><path d="M2 -96 Q-40 -120 -68 -92 Q-36 -104 2 -90Z"/><path d="M2 -96 Q44 -120 72 -92 Q40 -104 2 -90Z"/><path d="M2 -96 Q-28 -140 -58 -130 Q-28 -124 2 -90Z"/><path d="M2 -96 Q32 -140 62 -130 Q32 -124 2 -90Z"/><path d="M2 -96 Q-4 -144 14 -150 Q8 -124 4 -90Z" fill="var(--leaf2)"/></g><circle cx="-3" cy="-90" r="5" fill="var(--sil)"/><circle cx="8" cy="-88" r="5" fill="var(--sil)"/></g>`;
   const house = (w, h, wins) => {
-    let s = `<rect x="${-w / 2}" y="${-h}" width="${w}" height="${h}" rx="5" fill="var(--wall)"/><rect x="${-w / 2 - 4}" y="${-h - 6}" width="${w + 8}" height="10" rx="4" fill="var(--wall2)"/><path d="M-9 0v-26a9 9 0 0 1 18 0v26Z" fill="var(--trunk)"/>`;
+    const dx = -w / 2 + 20;
+    let s = `<rect x="${-w / 2}" y="${-h}" width="${w}" height="${h}" rx="3" fill="var(--wall)"/><rect x="${-w / 2 - 5}" y="${-h - 7}" width="${w + 10}" height="10" rx="3" fill="var(--wall2)"/><rect x="${-w / 2 + w * 0.62}" y="${-h - 16}" width="${w * 0.3}" height="10" rx="2" fill="var(--wall2)"/><path d="M${dx - 10} 0v-30h20v30Z" fill="var(--sil)"/>`;
     for (let i = 0; i < wins; i++) {
-      const x = -w / 2 + (w / (wins + 1)) * (i + 1);
-      s += `${glow(x, -h + 24, 34)}<rect class="win" x="${x - 8}" y="${-h + 13}" width="16" height="22" rx="8"/>`;
+      const x = -w / 2 + 44 + ((w - 60) / Math.max(1, wins)) * (i + 0.5);
+      s += `${glow(x, -h + 26, 40)}<rect class="win" x="${x - 9}" y="${-h + 16}" width="18" height="18" rx="2"/>`;
     }
     return s;
   };
-  A.eleph = `<g transform="translate(-310 -405)"><ellipse class="shadow" cx="320" cy="408" rx="150" ry="12"/><g class="elegs" fill="#7d8598"><rect x="225" y="345" width="38" height="60" rx="10"/><rect x="280" y="345" width="38" height="60" rx="10"/><rect x="335" y="345" width="38" height="60" rx="10"/><rect x="380" y="345" width="38" height="60" rx="10"/></g><g class="ebody"><path d="M192 280q-22 20-14 55" stroke="#7d8598" stroke-width="8" fill="none" stroke-linecap="round"/><ellipse cx="300" cy="300" rx="112" ry="76" fill="#959db0"/><ellipse cx="290" cy="262" rx="70" ry="26" fill="#a3abbd"/><circle cx="412" cy="270" r="56" fill="#959db0"/><path d="M454 285Q488 332 462 388" stroke="#959db0" stroke-width="24" fill="none" stroke-linecap="round"/><path d="M438 306q22 16 36 0" stroke="#fff3d6" stroke-width="8" fill="none" stroke-linecap="round"/><ellipse cx="384" cy="268" rx="30" ry="44" fill="#7d8598"/><circle cx="428" cy="256" r="5" fill="${INK}"/><path d="M246 238 h96 l-10 44 h-76Z" fill="#b8473d"/><path d="M246 238h96" stroke="${GOLD}" stroke-width="5"/></g></g>`;
+  A.eleph = `<g transform="translate(-310 -405)"><ellipse class="shadow" cx="330" cy="408" rx="160" ry="11"/><g class="elegs"><path d="M250 318 L245 394 Q244 406 256 406 L286 406 Q296 406 294 394 L290 318Z" fill="var(--sil)"/><path d="M392 318 L387 394 Q386 406 398 406 L426 406 Q436 406 434 394 L430 318Z" fill="var(--sil)"/><path d="M206 318 L201 394 Q200 406 212 406 L246 406 Q256 406 254 394 L250 318Z" fill="var(--sil2)"/><path d="M352 318 L347 394 Q346 406 358 406 L390 406 Q400 406 398 394 L394 318Z" fill="var(--sil2)"/></g><g class="ebody"><path d="M196 262 q-24 22 -20 70 q0 10 6 16" stroke="var(--sil)" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M186 310 Q178 232 262 212 Q346 196 404 222 Q446 242 444 304 Q442 362 398 374 L232 374 Q190 362 186 310Z" fill="var(--sil2)"/><path d="M214 250 Q262 216 340 216 Q300 240 232 262Z" fill="var(--sil3)" opacity=".7"/><path d="M392 226 Q434 196 470 226 Q494 250 484 292 Q470 322 432 318 Q396 312 390 270Z" fill="var(--sil2)"/><path d="M462 262 Q502 300 494 352 Q488 396 462 404 Q448 406 450 394 Q470 372 466 340 Q462 312 438 300Z" fill="var(--sil2)"/><path d="M444 300 q26 22 46 4 q-18 30 -50 12Z" fill="var(--pale)"/><path d="M372 226 Q336 236 342 288 Q348 330 388 322 Q414 304 408 256 Q400 226 372 226Z" fill="var(--sil)"/><circle cx="446" cy="252" r="4.500" fill="var(--pale)"/><path d="M244 226 Q292 206 344 214 L334 266 Q292 258 254 272Z" fill="#8f2f3a"/><path d="M244 226 Q292 206 344 214" stroke="${GOLD}" stroke-width="5" fill="none"/><path d="M254 272 Q292 258 334 266" stroke="${GOLD}" stroke-width="3" fill="none"/></g></g>`;
   const bird1 = (x, y, s) => `<path transform="translate(${x} ${y}) scale(${s})" d="M0 0q10-14 20 0q10-14 20 0" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>`;
   A.birds = `${bird1(-150, 10, 1.5)}${bird1(-70, -30, 1.2)}${bird1(-10, 40, 1.6)}${bird1(70, -10, 1.3)}${bird1(-110, 70, 1.1)}${bird1(110, 60, 1.4)}${bird1(20, -60, 1)}${bird1(150, 0, 1.1)}`;
 
@@ -39,47 +40,53 @@
     if (hump) s += `<ellipse cx="${-rx * 0.1}" cy="${by - ry * 0.8}" rx="${rx * 0.42}" ry="${ry * 0.75}" fill="${c}"/>`;
     s += `<path d="M${rx * 0.7} ${by} L${hx} ${hy}" stroke="${c}" stroke-width="${nw}" stroke-linecap="round"/><ellipse cx="0" cy="${by}" rx="${rx}" ry="${ry}" fill="${c}"/>`;
     if (wool) for (let i = 0; i < 9; i++) { const a = (i / 9) * 6.283; s += `<circle cx="${Math.round(Math.cos(a) * rx * 0.8)}" cy="${Math.round(by + Math.sin(a) * ry * 0.8)}" r="${ry * 0.5}" fill="${c}"/>`; }
-    if (load) s += `<rect x="${-rx * 0.5}" y="${by - ry * (hump ? 1.9 : 1.3)}" width="${rx * 0.8}" height="${ry * 0.9}" rx="8" fill="#b8473d"/><rect x="${-rx * 0.5}" y="${by - ry * (hump ? 1.55 : 0.95)}" width="${rx * 0.8}" height="5" fill="${GOLD}"/>`;
+    if (load) s += `<rect x="${-rx * 0.5}" y="${by - ry * (hump ? 1.9 : 1.3)}" width="${rx * 0.8}" height="${ry * 0.9}" rx="8" fill="#8f2f3a"/><rect x="${-rx * 0.5}" y="${by - ry * (hump ? 1.55 : 0.95)}" width="${rx * 0.8}" height="5" fill="${GOLD}"/>`;
     if (ear === "l") s += `<ellipse cx="${hx - 4}" cy="${hy - hr * 1.5}" rx="5" ry="${hr}" fill="${d}" transform="rotate(-12 ${hx - 4} ${hy - hr})"/><ellipse cx="${hx + 8}" cy="${hy - hr * 1.5}" rx="5" ry="${hr}" fill="${c}" transform="rotate(10 ${hx + 8} ${hy - hr})"/>`;
     else s += `<ellipse cx="${hx - 2}" cy="${hy - hr * 0.7}" rx="6" ry="9" fill="${d}"/>`;
-    if (horn) s += `<path d="M${hx} ${hy - hr} q-10 -16 -22 -12" stroke="#5b4a3a" stroke-width="5" fill="none" stroke-linecap="round"/>`;
-    s += `<ellipse cx="${hx + hr * 0.5}" cy="${hy}" rx="${hr * 1.25}" ry="${hr}" fill="${wool ? d : c}"/><circle cx="${hx + hr * 0.7}" cy="${hy - 3}" r="3" fill="${wool ? "#fff" : INK}"/></g>`;
+    if (horn) s += `<path d="M${hx} ${hy - hr} q-10 -16 -22 -12" stroke="var(--sil)" stroke-width="5" fill="none" stroke-linecap="round"/>`;
+    s += `<ellipse cx="${hx + hr * 0.5}" cy="${hy}" rx="${hr * 1.25}" ry="${hr}" fill="${wool ? d : c}"/><circle cx="${hx + hr * 0.7}" cy="${hy - 3}" r="3" fill="var(--pale)" opacity=".8"/></g>`;
     return s;
   }
-  A.camel = quad({ c: "#d9a566", d: "#b98346", rx: 70, ry: 34, L: 70, lw: 12, nx: 34, ny: 70, nw: 16, hr: 14, hump: 1 });
-  A.camelL = quad({ c: "#d9a566", d: "#b98346", rx: 70, ry: 34, L: 70, lw: 12, nx: 34, ny: 70, nw: 16, hr: 14, hump: 1, load: 1 });
-  A.donkeyThin = quad({ c: "#a59a8e", d: "#877c70", rx: 50, ry: 20, L: 44, lw: 9, nx: 22, ny: 26, nw: 13, hr: 13, ear: "l" });
-  A.donkey = quad({ c: "#a59a8e", d: "#877c70", rx: 52, ry: 28, L: 44, lw: 11, nx: 24, ny: 34, nw: 15, hr: 13, ear: "l" });
-  A.sheep = quad({ c: "#f6f1e6", d: "#3a3440", rx: 40, ry: 26, L: 26, lw: 8, nx: 14, ny: 12, nw: 12, hr: 11, wool: 1 });
-  A.goat = quad({ c: "#e9dcc6", d: "#7b6652", rx: 40, ry: 24, L: 34, lw: 8, nx: 16, ny: 20, nw: 11, hr: 11, horn: 1 });
+  A.camel = quad({ c: "var(--sil2)", d: "var(--sil)", rx: 70, ry: 34, L: 70, lw: 12, nx: 34, ny: 70, nw: 16, hr: 14, hump: 1 });
+  A.camelL = quad({ c: "var(--sil2)", d: "var(--sil)", rx: 70, ry: 34, L: 70, lw: 12, nx: 34, ny: 70, nw: 16, hr: 14, hump: 1, load: 1 });
+  A.donkeyThin = quad({ c: "var(--sil2)", d: "var(--sil)", rx: 50, ry: 20, L: 44, lw: 9, nx: 22, ny: 26, nw: 13, hr: 13, ear: "l" });
+  A.donkey = quad({ c: "var(--sil2)", d: "var(--sil)", rx: 52, ry: 28, L: 44, lw: 11, nx: 24, ny: 34, nw: 15, hr: 13, ear: "l" });
+  A.sheep = quad({ c: "var(--pale)", d: "var(--sil)", rx: 40, ry: 26, L: 26, lw: 8, nx: 14, ny: 12, nw: 12, hr: 11, wool: 1 });
+  A.goat = quad({ c: "var(--pale)", d: "var(--sil2)", rx: 40, ry: 24, L: 34, lw: 8, nx: 16, ny: 20, nw: 11, hr: 11, horn: 1 });
 
-  A.tent = `${glow(0, -40, 110)}<path d="M-110 0 L0 -120 L110 0Z" fill="var(--tent)"/><path d="M-66 0 L0 -120 L-22 0Z" fill="var(--tent2)"/><path d="M66 0 L0 -120 L22 0Z" fill="var(--tent2)"/><path class="flap" d="M-22 0 L0 -70 L22 0Z" fill="#3a2a22"/><path d="M0 -120v-18" stroke="var(--trunk)" stroke-width="4"/><path class="a-flag" d="M0 -138l22 8-22 6Z" fill="#b8473d"/>`;
-  A.orb = `${glow(0, 0, 110)}<circle r="46" fill="var(--orb)"/><circle class="crater" cx="-14" cy="-10" r="9"/><circle class="crater" cx="16" cy="12" r="6"/>`;
+  A.tent = `${glow(0, -40, 110)}<path d="M-110 0 L0 -120 L110 0Z" fill="var(--tent)"/><path d="M-66 0 L0 -120 L-22 0Z" fill="var(--tent2)"/><path d="M66 0 L0 -120 L22 0Z" fill="var(--tent2)"/><path class="flap" d="M-22 0 L0 -70 L22 0Z" fill="var(--sil)"/><path d="M0 -120v-18" stroke="var(--trunk)" stroke-width="4"/><path class="a-flag" d="M0 -138l22 8-22 6Z" fill="#8f2f3a"/>`;
+  A.orb = `${glow(0, 0, 170)}<circle r="78" fill="var(--orb)" opacity=".14"/><circle r="60" fill="var(--orb)" opacity=".28"/><circle r="44" fill="var(--orb)"/><circle class="crater" cx="-14" cy="-10" r="9"/><circle class="crater" cx="16" cy="12" r="6"/><circle class="crater" cx="6" cy="-20" r="4"/>`;
   A.star = `<g class="rays" stroke="${LIT}" stroke-width="6" stroke-linecap="round">${[0, 45, 90, 135, 180, 225, 270, 315].map(a => `<line y1="-62" y2="-92" transform="rotate(${a})"/>`).join("")}</g>${glow(0, 0, 120)}<path class="core" d="M0-48 13-15 48-15 20 7 31 43 0 22-31 43-20 7-48-15-13-15Z" fill="${LIT}"/>`;
   A.stars = [[-160, -30, 9], [-80, 30, 7], [0, -40, 11], [90, 20, 8], [160, -20, 10], [-30, 50, 6], [120, 70, 6]].map(p => `<path class="tw2" transform="translate(${p[0]} ${p[1]})" d="M0-${p[2] * 2} ${p[2] * 0.5}-${p[2] * 0.5} ${p[2] * 2} 0 ${p[2] * 0.5} ${p[2] * 0.5} 0 ${p[2] * 2}-${p[2] * 0.5} ${p[2] * 0.5}-${p[2] * 2} 0-${p[2] * 0.5}-${p[2] * 0.5}Z" fill="${LIT}"/>`).join("");
-  A.cloud = `<g fill="var(--cloud)"><ellipse cx="0" cy="0" rx="70" ry="26"/><ellipse cx="-40" cy="-16" rx="36" ry="26"/><ellipse cx="20" cy="-26" rx="44" ry="32"/><ellipse cx="60" cy="-6" rx="34" ry="22"/></g>`;
-  A.lamp = `${glow(0, -34, 90)}<path d="M-16 0h32l-4 -10h-24Z" fill="#8a5a2b"/><rect class="win" x="-14" y="-52" width="28" height="42" rx="6"/><path d="M-18 -52h36l-8 -14h-20Z" fill="#8a5a2b"/><path d="M0 -66v-12" stroke="#8a5a2b" stroke-width="4"/><circle cy="-82" r="6" fill="none" stroke="#8a5a2b" stroke-width="3"/>`;
+  A.cloud = `<g fill="var(--cloud)"><ellipse cx="0" cy="0" rx="110" ry="9"/><ellipse cx="40" cy="-12" rx="70" ry="8"/><ellipse cx="-50" cy="10" rx="60" ry="6"/></g>`;
+  A.dust = `<g fill="var(--h1)"><ellipse class="puff" cx="-30" cy="-14" rx="46" ry="22"/><ellipse class="puff" cx="24" cy="-26" rx="54" ry="28"/><ellipse class="puff" cx="70" cy="-10" rx="40" ry="18"/><ellipse class="puff" cx="10" cy="-52" rx="36" ry="20"/></g>`;
+  const tentS = (x, s2) => `<g transform="translate(${x} 0) scale(${s2})"><path d="M-40 0 L0 -46 L40 0Z" fill="var(--sil2)"/><path d="M-8 0 L0 -26 L8 0Z" fill="var(--sil)"/><path d="M0 -46v-22" stroke="var(--sil)" stroke-width="3"/><path class="a-flag" d="M0 -68l20 6-20 6Z" fill="#8f2f3a"/></g>`;
+  const spear = (x, h) => `<path d="M${x} 0V${-h}" stroke="var(--sil)" stroke-width="3"/><path d="M${x - 4} ${-h} L${x} ${-h - 14} L${x + 4} ${-h}Z" fill="var(--sil)"/>`;
+  A.camp = tentS(-220, 1) + tentS(-120, 1.3) + tentS(0, 1.1) + tentS(110, 1.4) + tentS(230, 1) + [-270, -175, -160, -60, -45, 55, 70, 170, 185, 280].map((x, i) => spear(x, 50 + (i % 3) * 12)).join("");
+  A.specks = [[-120, 10, 0.7], [-60, -30, 0.5], [-10, 20, 0.8], [50, -10, 0.6], [-90, 50, 0.5], [90, 40, 0.7], [20, -50, 0.5], [130, 0, 0.6], [-150, -30, 0.5], [0, 60, 0.6], [70, -50, 0.5]].map(q => bird1(q[0], q[1], q[2])).join("");
+  A.starname = A.star + `<text class="callig" text-anchor="middle" font-size="100" y="190">محمد</text>`;
+  A.lamp = `${glow(0, -34, 90)}<path d="M-16 0h32l-4 -10h-24Z" fill="var(--sil)"/><rect class="win" x="-14" y="-52" width="28" height="42" rx="6"/><path d="M-18 -52h36l-8 -14h-20Z" fill="var(--sil)"/><path d="M0 -66v-12" stroke="var(--sil)" stroke-width="4"/><circle cy="-82" r="6" fill="none" stroke="var(--sil)" stroke-width="3"/>`;
   A.cave = `${glow(0, -40, 150)}<path d="M-60 0 Q-66 -92 0 -96 Q66 -92 60 0Z" fill="#17141d"/><path class="win" d="M-40 0 Q-44 -66 0 -70 Q44 -66 40 0Z"/>`;
-  A.stall = `<rect x="-88" y="-120" width="8" height="120" fill="var(--trunk)"/><rect x="80" y="-120" width="8" height="120" fill="var(--trunk)"/><g class="awn"><path d="M-104 -118h208l-16 -34h-176Z" fill="#b8473d"/><path d="M-62 -118l8 -34h36l-4 34Z M18 -118l-4 -34h36l8 34Z" fill="#f3e3c2"/><path d="M-104 -118q13 16 26 0q13 16 26 0q13 16 26 0q13 16 26 0q13 16 26 0q13 16 26 0q13 16 26 0q13 16 26 0" fill="#b8473d"/></g><rect x="-96" y="-48" width="192" height="12" rx="4" fill="#8a5a2b"/><path d="M-70 -48 q-4 -30 14 -30 q18 0 14 30Z" fill="#c9793f"/><path d="M-22 -48 q-4 -24 12 -24 q16 0 12 24Z" fill="#d9a566"/><rect x="20" y="-62" width="50" height="14" rx="7" fill="#3f7fa6"/><rect x="26" y="-74" width="40" height="12" rx="6" fill="#e2b23c"/>`;
-  A.scale = `<rect x="-5" y="-130" width="10" height="130" rx="4" fill="#8a5a2b"/><path d="M-34 0h68l-8 -12h-52Z" fill="#8a5a2b"/><g class="beam"><rect x="-84" y="-134" width="168" height="8" rx="4" fill="${GOLD}"/><path d="M-78 -128 L-100 -70 M-78 -128 L-56 -70 M78 -128 L56 -70 M78 -128 L100 -70" stroke="#8a5a2b" stroke-width="2.5"/><path d="M-106 -70h56q-4 22 -28 22q-24 0 -28 -22Z M50 -70h56q-4 22 -28 22q-24 0 -28 -22Z" fill="${GOLD}"/><circle cx="-78" cy="-76" r="9" fill="#c9793f"/><circle cx="78" cy="-76" r="9" fill="#c9793f"/></g><circle cy="-130" r="9" fill="${GOLD}"/>`;
-  A.chest = `${glow(0, -50, 100)}<rect x="-56" y="-50" width="112" height="50" rx="6" fill="#8a5a2b"/><rect x="-56" y="-30" width="112" height="6" fill="${GOLD}"/><g class="lid"><path d="M-58 -50 q0 -30 58 -30 q58 0 58 30Z" fill="#a06a35"/><path d="M-58 -52h116" stroke="${GOLD}" stroke-width="5"/></g><rect x="-8" y="-40" width="16" height="18" rx="4" fill="${GOLD}"/>`;
-  A.cloth = `<ellipse class="shadow" cx="0" cy="6" rx="130" ry="14"/><g class="up"><path d="M-130 -10 q130 34 260 0 l-22 -40 q-108 22 -216 0Z" fill="#f3e3c2"/><path d="M-122 -14 q122 30 244 0" stroke="#b8473d" stroke-width="5" fill="none"/><ellipse cx="0" cy="-36" rx="34" ry="24" fill="#c9ccd6"/><ellipse cx="0" cy="-36" rx="22" ry="15" fill="${INK}"/><g fill="#8a5a2b"><circle cx="-128" cy="-12" r="7"/><circle cx="128" cy="-12" r="7"/><circle cx="-108" cy="-50" r="7"/><circle cx="108" cy="-50" r="7"/></g></g>`;
+  A.stall = `<rect x="-88" y="-120" width="8" height="120" fill="var(--trunk)"/><rect x="80" y="-120" width="8" height="120" fill="var(--trunk)"/><g class="awn"><path d="M-104 -118h208l-16 -34h-176Z" fill="#8f2f3a"/><path d="M-62 -118l8 -34h36l-4 34Z M18 -118l-4 -34h36l8 34Z" fill="var(--pale)"/><path d="M-104 -118q13 16 26 0q13 16 26 0q13 16 26 0q13 16 26 0q13 16 26 0q13 16 26 0q13 16 26 0q13 16 26 0" fill="#8f2f3a"/></g><rect x="-96" y="-48" width="192" height="12" rx="4" fill="var(--sil)"/><path d="M-70 -48 q-4 -30 14 -30 q18 0 14 30Z" fill="var(--sil2)"/><path d="M-22 -48 q-4 -24 12 -24 q16 0 12 24Z" fill="var(--sil3)"/><rect x="20" y="-62" width="50" height="14" rx="7" fill="#2f5d7a"/><rect x="26" y="-74" width="40" height="12" rx="6" fill="#e2b23c"/>`;
+  A.scale = `<rect x="-5" y="-130" width="10" height="130" rx="4" fill="var(--sil)"/><path d="M-34 0h68l-8 -12h-52Z" fill="var(--sil)"/><g class="beam"><rect x="-84" y="-134" width="168" height="8" rx="4" fill="${GOLD}"/><path d="M-78 -128 L-100 -70 M-78 -128 L-56 -70 M78 -128 L56 -70 M78 -128 L100 -70" stroke="var(--sil)" stroke-width="2.5"/><path d="M-106 -70h56q-4 22 -28 22q-24 0 -28 -22Z M50 -70h56q-4 22 -28 22q-24 0 -28 -22Z" fill="${GOLD}"/><circle cx="-78" cy="-76" r="9" fill="var(--sil2)"/><circle cx="78" cy="-76" r="9" fill="var(--sil2)"/></g><circle cy="-130" r="9" fill="${GOLD}"/>`;
+  A.chest = `${glow(0, -50, 100)}<rect x="-56" y="-50" width="112" height="50" rx="6" fill="var(--sil)"/><rect x="-56" y="-30" width="112" height="6" fill="${GOLD}"/><g class="lid"><path d="M-58 -50 q0 -30 58 -30 q58 0 58 30Z" fill="var(--sil2)"/><path d="M-58 -52h116" stroke="${GOLD}" stroke-width="5"/></g><rect x="-8" y="-40" width="16" height="18" rx="4" fill="${GOLD}"/>`;
+  A.cloth = `<ellipse class="shadow" cx="0" cy="6" rx="130" ry="14"/><g class="up"><path d="M-130 -10 q130 34 260 0 l-22 -40 q-108 22 -216 0Z" fill="var(--pale)"/><path d="M-122 -14 q122 30 244 0" stroke="#8f2f3a" stroke-width="5" fill="none"/><ellipse cx="0" cy="-36" rx="34" ry="24" fill="#c9ccd6"/><ellipse cx="0" cy="-36" rx="22" ry="15" fill="${INK}"/><g fill="var(--sil)"><circle cx="-128" cy="-12" r="7"/><circle cx="128" cy="-12" r="7"/><circle cx="-108" cy="-50" r="7"/><circle cx="108" cy="-50" r="7"/></g></g>`;
   A.bstone = `${glow(0, -26, 80)}<ellipse cx="0" cy="-24" rx="36" ry="26" fill="#c9ccd6"/><ellipse cx="0" cy="-24" rx="24" ry="17" fill="${INK}"/>`;
-  A.mat = `<path d="M-90 0 L-70 -34 H70 L90 0Z" fill="#b8473d"/><path d="M-80 -8 L-66 -28 H66 L80 -8Z" fill="none" stroke="${GOLD}" stroke-width="3"/><path d="M-90 0v8M-70 0v8M-50 0v8M-30 0v8M-10 0v8M10 0v8M30 0v8M50 0v8M70 0v8M90 0v8" stroke="#f3e3c2" stroke-width="3"/>`;
-  A.basket = `<path d="M-30 0 q-10 -34 0 -40 h60 q10 6 0 40Z" fill="#c9954e"/><path d="M-34 -40h68" stroke="#8a5a2b" stroke-width="6" stroke-linecap="round"/><path d="M-24 -28h48M-28 -14h56" stroke="#a87a3c" stroke-width="3"/><path d="M-22 -40 q22 -40 44 0" fill="none" stroke="#8a5a2b" stroke-width="5"/><path d="M52 0 q-14 -30 4 -52 q18 22 4 52Z" fill="#7a5a44"/><rect x="52" y="-60" width="10" height="10" rx="3" fill="#5b4a3a"/>`;
+  A.mat = `<path d="M-90 0 L-70 -34 H70 L90 0Z" fill="#8f2f3a"/><path d="M-80 -8 L-66 -28 H66 L80 -8Z" fill="none" stroke="${GOLD}" stroke-width="3"/><path d="M-90 0v8M-70 0v8M-50 0v8M-30 0v8M-10 0v8M10 0v8M30 0v8M50 0v8M70 0v8M90 0v8" stroke="var(--pale)" stroke-width="3"/>`;
+  A.basket = `<path d="M-30 0 q-10 -34 0 -40 h60 q10 6 0 40Z" fill="var(--sil2)"/><path d="M-34 -40h68" stroke="var(--sil)" stroke-width="6" stroke-linecap="round"/><path d="M-24 -28h48M-28 -14h56" stroke="var(--sil)" stroke-width="3"/><path d="M-22 -40 q22 -40 44 0" fill="none" stroke="var(--sil)" stroke-width="5"/><path d="M52 0 q-14 -30 4 -52 q18 22 4 52Z" fill="var(--sil)"/><rect x="52" y="-60" width="10" height="10" rx="3" fill="var(--sil)"/>`;
   A.grass = `<g class="sprout" fill="var(--leaf)">${[-90, -60, -30, 0, 30, 60, 90].map((x, i) => `<path d="M${x} 0 q-10 -${26 + (i % 3) * 8} -2 -${40 + (i % 3) * 8} q8 ${20} 6 ${40 + (i % 3) * 8}Z"/><path d="M${x + 10} 0 q10 -${20 + (i % 2) * 10} 14 -${30 + (i % 2) * 10} q-2 16 -8 ${30 + (i % 2) * 10}Z" fill="var(--leaf2)"/>`).join("")}</g><path d="M-110 0h220" stroke="var(--sand2)" stroke-width="4" stroke-linecap="round"/>`;
   const wall = (shown) => {
     let s = "";
     for (let r = 0; r < 6; r++) {
       const y = -22 * (r + 1);
       let row = "";
-      for (let c = 0; c < 5; c++) row += `<rect x="${-75 + c * 30 + (r % 2 ? -8 : 0)}" y="${y}" width="${28}" height="20" rx="3" fill="${(r + c) % 2 ? "#8d8792" : "#a39da6"}"/>`;
+      for (let c = 0; c < 5; c++) row += `<rect x="${-75 + c * 30 + (r % 2 ? -8 : 0)}" y="${y}" width="${28}" height="20" rx="3" fill="${(r + c) % 2 ? "var(--wall2)" : "var(--wall)"}"/>`;
       s += r < shown ? row : `<g class="row" style="transition-delay:${(r - shown) * 0.35}s">${row}</g>`;
     }
     return s;
   };
   A.gate = `${glow(0, -80, 150)}<path d="M-90 0 V-150 Q0 -230 90 -150 V0 H56 V-140 Q0 -190 -56 -140 V0Z" fill="var(--wall2)"/><path d="M-90 0 V-150 Q0 -230 90 -150" fill="none" stroke="var(--trunk)" stroke-width="5"/><path class="win" d="M-56 0 V-140 Q0 -190 56 -140 V0Z"/>`;
-  A.hall = `${glow(0, -40, 110)}<rect x="-120" y="-130" width="240" height="130" rx="6" fill="#b9b2a6"/><rect x="-128" y="-140" width="256" height="14" rx="5" fill="#9b9488"/><rect x="60" y="-196" width="50" height="60" rx="4" fill="#b9b2a6"/><path d="M56 -196 h58 l-29 -26Z" fill="#9b9488"/><rect class="win" x="77" y="-180" width="16" height="24" rx="8"/><rect class="win" x="-96" y="-104" width="18" height="28" rx="9"/><rect class="win" x="-56" y="-104" width="18" height="28" rx="9"/><path class="win" d="M-22 0 V-62 a22 22 0 0 1 44 0 V0Z"/><path class="leaf" d="M-22 0 V-62 a22 22 0 0 1 44 0 V0Z" fill="#6b4a2c"/>`;
+  A.hall = `${glow(0, -40, 110)}<rect x="-120" y="-130" width="240" height="130" rx="6" fill="var(--wall)"/><rect x="-128" y="-140" width="256" height="14" rx="5" fill="var(--wall2)"/><rect x="60" y="-196" width="50" height="60" rx="4" fill="var(--wall)"/><path d="M56 -196 h58 l-29 -26Z" fill="var(--wall2)"/><rect class="win" x="77" y="-180" width="16" height="24" rx="8"/><rect class="win" x="-96" y="-104" width="18" height="28" rx="9"/><rect class="win" x="-56" y="-104" width="18" height="28" rx="9"/><path class="win" d="M-22 0 V-62 a22 22 0 0 1 44 0 V0Z"/><path class="leaf" d="M-22 0 V-62 a22 22 0 0 1 44 0 V0Z" fill="var(--sil)"/>`;
   const callig = (txt, size) => `${glow(0, -size * 0.35, size * 1.5)}<text class="callig" text-anchor="middle" font-size="${size}" y="0">${txt}</text>`;
 
   /* ---------- tappable props, with their names and sounds ---------- */
@@ -111,8 +118,15 @@
     wall: (x, y, s, shown) => T("wall", "grow", "thud", x, y, s, wall(shown), [-95, -145, 190, 155]),
     gate: (x, y, s) => T("gate", "light", "creak", x, y, s, A.gate, [-100, -215, 200, 225]),
     hall: (x, y, s) => T("door", "open", "creak", x, y, s, A.hall, [-135, -225, 270, 235]),
-    name: (x, y, s, txt) => T("name", "name", "twinkle", x, y, s, callig(txt, 150), [-230, -180, 460, 240])
+    name: (x, y, s, txt) => T("name", "name", "twinkle", x, y, s, callig(txt, 150), [-230, -180, 460, 240]),
+    dust: (x, y, s) => T("dust", "pulse", "whoosh", x, y, s, A.dust, [-90, -90, 200, 100]),
+    shadow: (x, y, s) => T("shadow", "pulse", "thud", x, y, s, A.eleph, [-150, -200, 330, 220]),
+    specks: (x, y, s) => T("specks", "fly", "chirp", x, y, s, A.specks, [-190, -90, 380, 180]),
+    starname: (x, y, s) => T("starname", "shine", "twinkle", x, y, s, A.starname, [-110, -110, 220, 240])
   };
+  // N(...) marks the thing that answers the slide's question: touching it turns the page.
+  // veil = it stays hidden until the question has been asked.
+  const N = (tap, veil) => tap.replace('class="tap"', `class="tap portal${veil ? " veil" : ""}"`).replace(" data-fx=", ' data-next="1" data-fx=');
   const p = {
     kaaba: (x, y, s) => P(x, y, s, A.kaaba),
     palm: (x, y, s) => P(x, y, s, A.palm),
@@ -125,25 +139,50 @@
     wall: (x, y, s, shown) => P(x, y, s, wall(shown)),
     stall: (x, y, s) => P(x, y, s, A.stall),
     cave: (x, y, s, lit) => P(x, y, s, A.cave, lit ? "on" : ""),
-    hall: (x, y, s) => P(x, y, s, A.hall)
+    hall: (x, y, s) => P(x, y, s, A.hall),
+    camp: (x, y, s) => P(x, y, s, A.camp)
   };
 
-  /* ---------- backdrops ---------- */
-  const defs = `<defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--sky1)"/><stop offset="1" stop-color="var(--sky2)"/></linearGradient><radialGradient id="gl"><stop offset="0" stop-color="#ffe9a8" stop-opacity=".95"/><stop offset=".5" stop-color="#ffe9a8" stop-opacity=".35"/><stop offset="1" stop-color="#ffe9a8" stop-opacity="0"/></radialGradient></defs>`;
-  const skyStars = [[70, 60], [180, 130], [300, 50], [420, 110], [560, 40], [680, 140], [800, 70], [920, 120], [130, 210], [860, 220], [500, 180], [360, 230], [740, 30], [40, 150]].map((q, i) => `<circle class="tw" cx="${q[0]}" cy="${q[1]}" r="${2 + (i % 3)}"/>`).join("");
-  const sky = `<rect width="1000" height="625" fill="url(#sk)"/><g class="skystars">${skyStars}</g><g class="skyclouds"><g class="cl1">${P(180, 110, 0.9, A.cloud)}</g><g class="cl2">${P(760, 170, 0.6, A.cloud)}</g></g>`;
-  const pebbles = [[90, 560], [260, 590], [430, 548], [610, 580], [790, 556], [930, 596], [520, 606], [170, 610]].map(q => `<ellipse cx="${q[0]}" cy="${q[1]}" rx="14" ry="5" fill="var(--sand2)"/>`).join("");
+  /* ---------- backdrops ----------
+     Each backdrop is three layers (far, middle, near). The camera moves them at different speeds,
+     which gives the picture depth. Layers are drawn wider than the frame so the edges never show. */
+  const defs = `<defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--sky1)"/><stop offset=".62" stop-color="var(--sky2)"/><stop offset=".86" stop-color="var(--sky3)"/></linearGradient><linearGradient id="gr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--sand)"/><stop offset="1" stop-color="var(--sand2)"/></linearGradient><radialGradient id="gl"><stop offset="0" stop-color="#ffe9a8" stop-opacity=".95"/><stop offset=".5" stop-color="#ffe9a8" stop-opacity=".35"/><stop offset="1" stop-color="#ffe9a8" stop-opacity="0"/></radialGradient></defs>`;
+  let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  let skyStars = ""; for (let i = 0; i < 70; i++) skyStars += `<circle class="tw" cx="${Math.round(rnd() * 1160 - 80)}" cy="${Math.round(rnd() * 330)}" r="${(0.8 + rnd() * 2).toFixed(1)}"/>`;
+  let motes = ""; for (let i = 0; i < 14; i++) motes += `<circle class="mote" cx="${Math.round(rnd() * 1000)}" cy="${Math.round(380 + rnd() * 230)}" r="${(1.5 + rnd() * 2.5).toFixed(1)}" style="animation-delay:-${(rnd() * 12).toFixed(1)}s"/>`;
+  const sky = `<rect x="-120" y="-40" width="1240" height="700" fill="url(#sk)"/><g class="skystars"><ellipse cx="500" cy="170" rx="700" ry="80" transform="rotate(-16 500 170)" fill="#9fb0ff" opacity=".1"/>${skyStars}</g><g class="skyclouds"><g class="cl1">${P(200, 150, 1.4, A.cloud)}</g><g class="cl2">${P(780, 230, 1, A.cloud)}</g><g class="cl1">${P(560, 90, 0.8, A.cloud)}</g></g>`;
+  const ripples = [[60, 548, 240], [380, 566, 300], [700, 552, 260], [200, 596, 340], [640, 604, 280]].map(q => `<path d="M${q[0]} ${q[1]} q${q[2] / 2} -10 ${q[2]} 0" stroke="var(--sand2)" stroke-width="3" fill="none" opacity=".6" stroke-linecap="round"/>`).join("");
+  const ground = (d) => `<path d="${d}" fill="url(#gr)"/>${ripples}`;
   const B = {
-    valley: `${sky}<path d="M0 400 L150 250 L290 380 L470 220 L640 370 L800 260 L1000 380 V625 H0Z" fill="var(--hill)"/><path d="M0 460 L210 350 L400 450 L620 340 L1000 450 V625 H0Z" fill="var(--hill2)"/><path d="M0 500 Q500 470 1000 500 V625 H0Z" fill="var(--sand)"/>${pebbles}`,
-    dunes: `${sky}<path d="M0 420 Q200 330 420 410 T820 380 T1000 400 V625 H0Z" fill="var(--hill)"/><path d="M0 470 Q260 400 520 470 T1000 450 V625 H0Z" fill="var(--sand2)"/><path d="M0 510 Q300 470 620 510 T1000 500 V625 H0Z" fill="var(--sand)"/>${pebbles}`,
-    hills: `${sky}<path d="M0 420 L170 270 L330 400 L520 250 L700 390 L860 290 L1000 380 V625 H0Z" fill="var(--hill)"/><path d="M0 460 Q220 360 460 450 T1000 430 V625 H0Z" fill="var(--grass2)"/><path d="M0 510 Q320 450 640 505 T1000 495 V625 H0Z" fill="var(--grass)"/>`,
-    mount: `${sky}<path d="M0 470 L160 330 L300 440 L1000 440 V625 H0Z" fill="var(--hill)"/><path d="M250 560 L520 150 Q560 100 610 150 L940 560Z" fill="var(--hill2)"/><path d="M520 150 Q560 100 610 150 L660 215 Q600 190 560 230 Q520 180 478 214Z" fill="var(--hill)"/><path d="M420 520 q60 -70 30 -130 q70 -40 60 -110" stroke="var(--sand)" stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="4 22"/><path d="M0 540 Q500 500 1000 540 V625 H0Z" fill="var(--sand)"/>${pebbles}`
+    valley: [
+      `<path d="M-100 390 L-20 350 L60 365 L130 300 L190 330 L260 250 L330 310 L400 270 L470 200 L540 280 L610 240 L680 300 L760 230 L840 290 L910 250 L1000 320 L1100 290 V660 H-100Z" fill="var(--h1)"/>`,
+      `<path d="M-100 450 L0 430 L90 390 L170 420 L250 350 L340 410 L430 360 L520 430 L600 380 L690 330 L780 400 L870 360 L1000 430 L1100 400 V660 H-100Z" fill="var(--h2)"/>`,
+      `<path d="M-100 480 Q20 440 240 472 T480 462 T720 476 T1100 455 V660 H-100Z" fill="var(--h3)"/>` + ground("M-100 508 Q500 482 1100 508 V660 H-100Z")
+    ],
+    dunes: [
+      `<path d="M-100 400 Q50 350 300 392 T600 372 T1100 380 V660 H-100Z" fill="var(--h1)"/>`,
+      `<path d="M-100 450 Q250 380 500 442 T1100 420 V660 H-100Z" fill="var(--h2)"/>`,
+      `<path d="M-100 478 Q200 440 420 474 T860 460 T1100 470 V660 H-100Z" fill="var(--h3)"/>` + ground("M-100 505 Q300 468 620 504 T1100 492 V660 H-100Z")
+    ],
+    hills: [
+      `<path d="M-100 420 L40 330 L170 270 L250 330 L330 300 L420 350 L520 250 L610 320 L700 290 L780 340 L860 280 L960 340 L1100 300 V660 H-100Z" fill="var(--h1)"/>`,
+      `<path d="M-100 460 Q220 360 460 450 T1100 430 V660 H-100Z" fill="var(--grass2)"/>`,
+      `<path d="M-100 512 Q320 452 640 506 T1100 496 V660 H-100Z" fill="var(--grass)"/>`
+    ],
+    mount: [
+      `<path d="M-100 460 L40 400 L160 330 L260 400 L360 370 L460 420 L1100 420 V660 H-100Z" fill="var(--h1)"/>`,
+      `<path d="M-100 500 L120 440 L300 470 L700 460 L900 430 L1100 470 V660 H-100Z" fill="var(--h2)"/>`,
+      `<path d="M230 580 L360 400 L420 330 L470 250 L520 150 Q560 100 610 150 L660 240 L720 300 L790 400 L960 580Z" fill="var(--h3)"/><path d="M520 150 Q560 100 610 150 L660 240 L600 330 L640 430 L560 580 L230 580 L360 400 L420 330 L470 250Z" fill="var(--h2)" opacity=".55"/><path d="M420 540 q60 -70 30 -130 q70 -40 60 -110" stroke="var(--sand)" stroke-width="7" fill="none" stroke-linecap="round" stroke-dasharray="3 20" opacity=".7"/>` + ground("M-100 548 Q500 512 1100 548 V660 H-100Z")
+    ]
   };
   // Each drawing gets its own gradient ids, so a night scene never borrows another scene's day sky.
   let uid = 0;
+  const SKY = /data-name="(orb|stars|star|cloud|birds|name|specks)"/;
   const S = (mood, back, ...parts) => {
-    const u = ++uid;
-    const body = (defs + `<g class="cam cam${u % 4}">` + B[back] + parts.join("") + "</g>").split('id="sk"').join('id="sk' + u + '"').split('id="gl"').join('id="gl' + u + '"').split("url(#sk)").join("url(#sk" + u + ")").split("url(#gl)").join("url(#gl" + u + ")");
+    const u = ++uid, b = B[back];
+    const up = parts.filter((x) => SKY.test(x.slice(0, 90))).join(""), land = parts.filter((x) => !SKY.test(x.slice(0, 90))).join("");
+    let body = defs + `<g class="cam cam${u % 4}">${sky}<g class="L0">${up}</g><g class="L1">${b[0]}</g><g class="L2">${b[1]}</g><g class="L3">${b[2]}${land}</g><g class="motes">${motes}</g></g>`;
+    for (const id of ["sk", "gl", "gr"]) body = body.split(`id="${id}"`).join(`id="${id}${u}"`).split(`url(#${id})`).join(`url(#${id}${u})`);
     return { mood, svg: `<svg viewBox="0 0 1000 625" preserveAspectRatio="xMidYMid slice" class="scene ${mood}" aria-hidden="true">${body}</svg>` };
   };
   const town = (x, y) => p.house(x, y, 1, 90, 70) + p.house(x + 95, y + 14, 1, 70, 54) + p.house(x - 80, y + 18, 1, 64, 48);
@@ -151,10 +190,12 @@
   /* ---------- the scenes, story by story ---------- */
   SN.art = {
     elephant: [
-      () => S("", "valley", t.orb(820, 110, 1), town(190, 470), p.house(760, 480, 1, 84, 60), t.kaaba(500, 500, 1.25), t.palm(90, 540, 1.1), t.palm(910, 545, 1.2)),
-      () => S("", "dunes", p.kaaba(880, 440, 0.5), t.palm(770, 500, 0.8), t.eleph(360, 540, 1.05)),
-      () => S("", "valley", p.kaaba(800, 490, 0.9), p.eleph(170, 520, 0.5, 1), t.birds(360, 150, 1.1), t.palm(930, 540, 1)),
-      () => S("night", "valley", town(190, 470), p.house(790, 480, 1, 84, 60, 1, 1), p.kaaba(500, 500, 1.25), t.star(500, 140, 1.1), t.palm(90, 540, 1.1))
+      () => S("", "valley", t.orb(800, 250, 1), town(250, 478), p.house(700, 486, 1, 84, 60), t.kaaba(500, 505, 1.2), t.palm(110, 545, 1.1), t.palm(900, 548, 1.2), N(t.dust(230, 400, 1.1), 1)),
+      () => S("dusk", "dunes", t.orb(160, 270, 1), p.camp(360, 506, 1), t.palm(60, 540, 1), t.cloud(600, 150, 1), N(t.shadow(720, 552, 0.8), 1)),
+      () => S("", "dunes", t.orb(140, 240, 0.9), p.kaaba(900, 462, 0.4), p.camp(110, 478, 0.5), t.palm(800, 520, 0.8), N(t.eleph(420, 556, 1.1))),
+      () => S("dusk", "dunes", p.kaaba(900, 462, 0.4), p.camp(110, 478, 0.5), p.eleph(420, 556, 1.1, 1), t.palm(800, 520, 0.8), N(t.specks(300, 150, 1), 1)),
+      () => S("dusk", "valley", p.eleph(150, 528, 0.5, 1), t.birds(330, 150, 1.2), t.birds(700, 230, 0.8), t.palm(930, 545, 1), N(t.kaaba(760, 505, 1))),
+      () => S("night", "valley", town(240, 478), p.kaaba(520, 505, 1.2), t.house(770, 500, 1.2, 96, 76, 1), t.palm(160, 548, 1.1), N(t.starname(500, 150, 0.8)))
     ],
     birth: [
       () => S("night", "valley", t.orb(830, 110, 0.9), p.kaaba(820, 470, 0.6), t.house(420, 510, 1.5, 120, 96, 1), t.palm(160, 540, 1.2)),
@@ -235,12 +276,12 @@
     ]
   };
 
-  SN.homeScene = () => S("", "dunes", p.palm(70, 600, 1.3), p.palm(945, 590, 1.1), p.tent(880, 440, 0.45), p.kaaba(120, 425, 0.4)).svg;
+  SN.homeScene = () => S("night", "dunes", p.palm(70, 600, 1.3), p.palm(945, 590, 1.1), p.tent(880, 470, 0.45), p.kaaba(120, 470, 0.4)).svg;
 
   /* When, during the voice-over, each thing in a picture plays by itself (0 = start, 1 = end).
      One entry per picture. Anything not listed is spread evenly through the telling. */
   SN.cues = {
-    elephant: [{ orb: 0.08, kaaba: 0.5 }, { palm: 0.15, elephant: 0.72 }, { birds: 0.12, palm: 0.7 }, { star: 0.62, palm: 0.25 }],
+    elephant: [{ orb: 0.08, kaaba: 0.3, palm: 0.6 }, { orb: 0.1, palm: 0.3, cloud: 0.6 }, { orb: 0.15, palm: 0.5 }, { palm: 0.4 }, { birds: 0.05, palm: 0.6 }, { house: 0.75, palm: 0.3 }],
     birth: [{ house: 0.75, orb: 0.1 }, { orb: 0.15, birds: 0.6 }, { birds: 0.15, kaaba: 0.6 }, { stars: 0.15, name: 0.5 }, { kaaba: 0.3, orb: 0.75 }],
     halimah: [{ tent: 0.3, camel: 0.7 }, { donkey: 0.3, camel: 0.5 }, { camel: 0.3, donkey: 0.55 }, { goat: 0.5, grass: 0.8 }, { stars: 0.5, tent: 0.8 }],
     family: [{ house: 0.6 }, { camel: 0.3, cloud: 0.7 }, { mat: 0.55, birds: 0.2 }, { house: 0.6 }, { stars: 0.3, orb: 0.6 }],
@@ -261,6 +302,7 @@
     tent: ["the tent", "خیمہ"], orb: ["the light in the sky", "آسمان کی روشنی"], star: ["the big star", "بڑا ستارہ"], stars: ["the stars", "ستارے"],
     cloud: ["the cloud", "بادل"], lamp: ["the lamp", "چراغ"], cave: ["the cave", "غار"], stall: ["the market stall", "دکان"], scale: ["the scales", "ترازو"],
     chest: ["the box", "صندوق"], cloth: ["the cloth", "چادر"], stone: ["the Black Stone", "حجرِ اسود"], mat: ["the mat", "بچھونا"], basket: ["the basket", "ٹوکری"],
+    starname: ["the star", "ستارہ"], dust: ["the dust", "گرد"], shadow: ["the big shape", "بڑی سی چیز"], specks: ["the dots in the sky", "آسمان کے نقطے"],
     grass: ["the grass", "گھاس"], wall: ["the wall", "دیوار"], gate: ["the gate", "دروازہ"], door: ["the door", "دروازہ"], name: ["the shining name", "چمکتا ہوا نام"]
   };
   SN.findPrompt = (name, lang) => {
@@ -284,6 +326,6 @@
     stars: '<rect x="14" y="20" width="20" height="22" rx="3" fill="#c9a36f"/><rect x="20" y="26" width="8" height="10" rx="4" fill="#ffd76a"/><path d="M10 12l1.500 3 3 1.500-3 1.500-1.500 3-1.500-3-3-1.500 3-1.500ZM38 8l1.500 3 3 1.500-3 1.500-1.500 3-1.500-3-3-1.500 3-1.500ZM24 4l1 2 2 1-2 1-1 2-1-2-2-1 2-1Z" fill="#f0a22e"/>'
   };
 
-  /* ---------- his guide: a small desert bird ---------- */
-  SN.guideSvg = `<svg viewBox="0 0 120 120" aria-hidden="true"><g class="gb"><path d="M52 104v12M66 104v12" stroke="#8a5a2b" stroke-width="4" stroke-linecap="round"/><ellipse cx="58" cy="76" rx="32" ry="30" fill="#e8a25a"/><ellipse cx="60" cy="86" rx="20" ry="16" fill="#f6dcb4"/><path class="gwing" d="M34 66 q-8 26 16 34 q12 -14 6 -34Z" fill="#3a3440"/><path d="M38 74 q10 4 16 0M38 84 q10 4 14 0" stroke="#f6f1e6" stroke-width="3" fill="none"/><circle cx="72" cy="44" r="20" fill="#e8a25a"/><g class="gcrest" fill="#e8a25a" stroke="#3a3440" stroke-width="2"><path d="M62 30 q-6 -22 6 -26 q2 14 0 26Z"/><path d="M70 28 q2 -24 14 -22 q-4 14 -6 24Z"/><path d="M78 30 q10 -18 20 -12 q-8 10 -14 18Z"/></g><path d="M90 44 l26 6 -26 4Z" fill="#3a3440"/><circle cx="78" cy="42" r="5" fill="#fff"/><circle class="geye" cx="79" cy="42" r="2.8" fill="#1b1b22"/></g></svg>`;
+  /* ---------- his guide: a small light that drifts to whatever is worth touching ---------- */
+  SN.guideSvg = `<span class="spark"></span>`;
 })();
