@@ -27,6 +27,8 @@ The owner planned to connect his **Higgsfield MCP** as a connector and start a n
 
 ## Working with Higgsfield
 
+- **The Higgsfield connector is view-only.** It appeared in the last session after this file was first written. It can list models, show the owner's past generations and check his credit balance, but its own instructions say it cannot generate media or upload files. So the owner runs the prompts himself on Higgsfield; from here you can look at his results with it.
+- Confirmed in his catalog on 20 November 2026: Nano Banana Pro (pictures, takes reference images), and for video Seedance 2.0 and 2.5 and Cinema Studio Video 3.0, all of which take a start image and have a switch to turn generated audio off. The second page of the video list was not read, so Kling may be on it.
 - **Still pictures:** Nano Banana Pro (it accepts a reference image, which keeps an animal or place consistent across shots).
 - **Motion:** Kling 3.0, image-to-video. Always make the picture first, choose the best, then animate it.
 - Model versions change often; use the newest of each.
