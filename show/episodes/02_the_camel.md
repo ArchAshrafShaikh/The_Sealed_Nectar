@@ -110,4 +110,4 @@ Abba's voice tells the story over the pictures. The children's faces are seen tw
 
 ## Words and timing
 
-Part 2 has about 230 words for Abba, which is right for two minutes at a calm storytelling pace.
+Part 2 has about 170 words for Abba. At a calm storytelling pace, with the wordless pictures (5, 9, 10) held for a few seconds each, that fills about two minutes.
