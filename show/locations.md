@@ -1,6 +1,6 @@
 # Location sheet
 
-Every place the show's present-day scenes happen, with the prompt to draw each one. The home is Abba and Dadi's: a garden terrace on top of a high-rise in a busy city.
+Every place the show's present-day scenes happen, with the prompt to draw each one. The home is Abba and Nani's: a garden terrace on top of a high-rise in a busy city.
 
 ## How to use this sheet
 
