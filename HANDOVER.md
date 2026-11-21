@@ -4,7 +4,17 @@ Updated on 21 November 2026 so a new session can continue without the earlier co
 
 ## Start here
 
-**The very next step:** the owner is generating the master picture of the swing corner (location 1 in `show/locations.md`) on Higgsfield with Nano Banana Pro. When he says it is ready:
+**Progress on the location pictures (21 November 2026).** The owner shares the pictures in the conversation; they are not saved in this public repository. Their Higgsfield file names identify them.
+
+- **Location 1, day (the master):** `hf_20261121_140333_4efcd8ca…`. A soft painted style, more detailed than "flat": characters must be painted to match. Chosen.
+- **Location 1, night:** the version with a small garden lamp beside the swing on the right (`hf_20261121_140753_…`, one of four). Recommended because the lamp is out of the family's way. The reference test passed: nothing moved between day and night.
+- Three extra day versions in an outlined cartoon style were made and set aside; the painted style was kept.
+- **Location 2, playground:** the middle of three (`hf_20261121_142227_dc1e2bb0…`), recommended. Made with the day master attached as the reference, which held the style.
+- **Next:** location 3 (open terrace and city view) with the day master attached, then its sunset, night and dawn versions.
+
+The Higgsfield connector needed the owner's private workspace selected; that is done and persists. His plan is Basic. Pictures sent in chat do not appear in `show_generations` unless that workspace is the one he generated in; if it shows nothing, ask him to share the pictures directly.
+
+**The original plan for this step:**
 
 1. Look at it through the Higgsfield connector (`show_generations`).
 2. Check it against the list under "Checking a location picture" below.
