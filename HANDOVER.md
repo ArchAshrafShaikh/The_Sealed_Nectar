@@ -16,9 +16,20 @@ The direction changed late in the last session, from an interactive storybook to
 
 The owner planned to connect his **Higgsfield MCP** as a connector and start a new session, so that the pictures and clips can be generated from here.
 
+## Update, 21 November 2026: the show's format
+
+The owner now wants a **YouTube channel that teaches the seerah to children without them noticing they are being taught**. Decisions so far:
+
+- **Episode format, about four minutes:** (1) a child-sized problem in modern daily life, in the manner of Omar & Hana; (2) "that reminds me of something that really happened": the seerah story, told around one thing from it that is animated (the camel, the scales, the cloth); (3) back to today, where the character acts on it. The thing is shown and animated while the storyteller tells what happened; it does not speak.
+- **Each episode carries one or two qualities** from a list drawn from the seerah. Season one is twelve episodes using stories already written here: noticing little ones (the little bird), kindness to animals (the camel), noticing how others feel (the gentle prayer), trusting Allah (the Elephant), thankfulness (Halimah), caring for someone alone (grandfather's mat), helping and patience (the shepherd), truthfulness (Al-Amin), fairness (the honest trader), sharing and peacemaking (the Black Stone), quiet time and sharing (Hira), love of learning and comforting ("Read!").
+- **The present-day characters are drawn children and their family.** Nobody from the seerah is ever shown.
+- **Visual direction:** flat 2D picture-book style, soft rounded shapes, warm sand and gold with deep blue nights, big heads and large eyes, shots held five to eight seconds, thumbnails with one face and one object and no words.
+- **Characters come before the script.** The cast is being settled first; then character sheets on Higgsfield; then the pilot script (episode 2, the camel).
+- Research found YouTube is under pressure over AI-made children's videos and that YouTube Kids admits few such channels. Advice given: start unlisted, make few episodes that are clearly hand-shaped, and read YouTube's current policies before going public.
+
 ## Rules that must always hold
 
-- **No person is ever shown.** Not the Prophet ﷺ, his family, companions, or anyone else. No figures, faces, hands, shadows or silhouettes of people. Places, animals and objects only. Scenes involving him are shot from where he stands, so things respond to someone out of view.
+- **Nobody from the seerah is ever shown.** Not the Prophet ﷺ, his family, companions, or anyone else in the events. No figures, faces, hands, shadows or silhouettes of them. Seerah scenes show places, animals and objects only, shot from where he stands, so things respond to someone out of view. The show's own present-day family is drawn (see the update above).
 - **No music.** Voice and natural sound only (wind, birds, animals, footsteps).
 - **Fidelity to sources.** Retell in new words; do not copy the book's text; do not invent events or dialogue. Each story lists its source.
 - **Calm pacing.** No autoplay chains, streaks, rewards for time spent, adverts or links out.

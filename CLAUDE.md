@@ -6,7 +6,8 @@ Stories from the life of the Prophet Muhammad ﷺ for young children, as a story
 
 ## Rules that always apply
 
-- Never show a person: no figures, faces, hands, shadows or silhouettes of people, in drawings, generated pictures or video. Places, animals and objects only.
+- Never show anyone from the seerah: not the Prophet ﷺ, his family, companions or anyone else in the events. No figures, faces, hands, shadows or silhouettes of them. Seerah scenes show places, animals and objects only.
+- The show's own present-day characters (a fictional family) are drawn. The owner decided this on 21 November 2026; before that, no person was drawn at all. The story app still draws no people.
 - No music. Voice and natural sound only.
 - Retell in new words and keep to the sources; do not invent events or dialogue. Use honorifics.
 - Show the owner one example before producing many, and ask before spending his Higgsfield credits.
