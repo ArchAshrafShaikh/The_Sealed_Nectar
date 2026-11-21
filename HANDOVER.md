@@ -10,7 +10,8 @@ Updated on 21 November 2026 so a new session can continue without the earlier co
 - **Location 1, night:** the version with a small garden lamp beside the swing on the right (`hf_20261121_140753_…`, one of four). Recommended because the lamp is out of the family's way. The reference test passed: nothing moved between day and night.
 - Three extra day versions in an outlined cartoon style were made and set aside; the painted style was kept.
 - **Location 2, playground:** the middle of three (`hf_20261121_142227_dc1e2bb0…`), recommended. Made with the day master attached as the reference, which held the style.
-- **Next:** location 3 (open terrace and city view) with the day master attached, then its sunset, night and dawn versions.
+- **Location 3, open terrace:** day `hf_20261121_142849_b43d4f65…` (the other was rejected: no railing on the left, an open drop to the street). Night `hf_20261121_143242_48620ba8…` (full of stars). Dawn `hf_20261121_143511_1457b03c…` (the sun disc visible). Sunset `hf_20261121_143639_b5d8b0e2…` (the grass stays green; the other had odd shadow stripes). Each made with the day terrace attached as the reference; the layout held in all.
+- **All locations the pilot needs (1, 2, 3) are done.** Next: the characters. Ask the owner for photos of the children and grandparents in the conversation, describe them in words, and design Zayn and Noor first, painted to match the backgrounds.
 
 The Higgsfield connector needed the owner's private workspace selected; that is done and persists. His plan is Basic. Pictures sent in chat do not appear in `show_generations` unless that workspace is the one he generated in; if it shows nothing, ask him to share the pictures directly.
 
